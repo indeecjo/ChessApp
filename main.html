@@ -1,0 +1,43 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="css/board.css">
+</head>
+
+<body>
+	<div ng-app="chess" >
+	<div ng-controller="BoardCtrl">		
+			<table id="chess_board" class="chess_board">
+				<tr  ng-repeat="row in board.boardMatrix" >
+					<td ng-repeat="cell in row" >
+						<span cell>
+							<piece ng-if="cell.piece"/>
+						</span>
+					</td>
+				</tr>
+			</table>	    
+			<div id="promoteDialog" title="Pick a figure">
+  				<p>
+  					
+  				</p>
+			</div>
+	</div>	
+	</div>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />	
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>	
+	<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="board/board.js"></script>
+	<script type="text/javascript" src="board/cell.js"></script>		
+	<script type="text/javascript" src="board/rook.js"></script>		
+	<script type="text/javascript" src="board/piece.js"></script>	
+	<script type="text/javascript" src="board/pawn.js"></script>	
+	<script type="text/javascript" src="board/king.js"></script>	
+	<script type="text/javascript" src="board/bishop.js"></script>	
+	<script type="text/javascript" src="board/queen.js"></script>	
+	<script type="text/javascript" src="board/knight.js"></script>	
+
+
+</body>
+</html>
+
