@@ -2,6 +2,7 @@
 
 
 chessApp.controller('BoardCtrl',function($scope,Board){  
+    window.MY_SCOPE = $scope;
     $scope.board = new Board();  
 
     $('#promoteDialog').dialog({      
@@ -60,7 +61,8 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     this.whiteCanCastleQueenSide = true;
     this.boardMatrix = [];
     //this.readBoardMatrixFromFEN('r1b1kb1r/pppppppp/8/8/8/8/PPPPPPPP/R1B1KB1R');
-    this.readBoardMatrixFromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
+    //this.readBoardMatrixFromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
+    this.readBoardMatrixFromFEN('rnbqkbnr/8/8/8/8/8/8/RNBQKBNR');
   }
 
   Board.WHITE_TO_MOVE = 1;
@@ -177,11 +179,12 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     var coodrinatesOfCells = this.coordinatesPieceGoesOver(from,to);
     var that = this;
     var allCellsFree = true;
-    angular.forEach(coodrinatesOfCells,function(cell){
+    for(var i=0;i<coodrinatesOfCells.length;i++){
+      var cell = coodrinatesOfCells[i];
       if(typeof that.boardMatrix[cell.x][cell.y].piece !== "undefined"){
         allCellsFree = false;
       }
-    });
+    }
     if(allCellsFree){
       return true;
     }else{
@@ -189,39 +192,48 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     }
   }
 
-  Board.prototype.isKingUnderAttackAfterMove = function(move){    
-    return false;
-    /*var that = this;
-    var pieces = this.getPiecesArray();
+  Board.prototype.isKingUnderAttackAfterMove = function(move){            
     var kingCoordinates = undefined;
     var result = false;
     var from = move.from;
-    var to = move.to;
-    var moovingPiece = move.piece;    
+    var to = move.to;    
+    var pieces = this.getPiecesArray();    
+    var moovingPiece = move.piece;        
     this.boardMatrix[from.x][from.y] = new Cell(from);    
     moovingPiece.move(to);
+    var oldCellPiece = this.boardMatrix[to.x][to.y].piece;
     this.boardMatrix[to.x][to.y] = new Cell(to,moovingPiece);
-    angular.forEach(pieces,function(piece){      
+    this.togglePlayerToMoveColor();    
+    for(var i=0;i<pieces.length;i++){      
+      var piece = pieces[i];
       if(piece.constructor.name === "King" && piece.color === moovingPiece.color){
         kingCoordinates = piece.getCoordinates();
       }
-    });    
-    angular.forEach(pieces,function(attackingPiece){      
-      
-      var attackingMove = new Move(attackingPiece.getCoordinates(),kingCoordinates,attackingPiece);
-      if(that.isLegalMove(attackingMove)){
-        result = true;
+    }
+    for(var i=0;i<pieces.length;i++){            
+      var attackingPiece = pieces[i];
+      if(attackingPiece.color === moovingPiece.getOppositeColor() ){        
+        var attackingMove = new Move(attackingPiece.getCoordinates(),kingCoordinates,attackingPiece);
+        if(this.isLegalMove(attackingMove)){
+          result = true;
+          console.log(attackingMove);        
+        }
       }
-    });    
-    this.boardMatrix[to.x][to.y] = new Cell(to);    
+    }      
+    this.boardMatrix[to.x][to.y] = new Cell(to,oldCellPiece);    
     moovingPiece.move(from);
     this.boardMatrix[from.x][from.y] = new Cell(from,moovingPiece);
-    return result;*/
+    this.togglePlayerToMoveColor();    
+    return result;
+  }
+
+  Board.prototype.togglePlayerToMoveColor = function(){  
+      this.playerToMoveColor *= -1; 
   }
 
   Board.prototype.move = function(piece,from,to){
     this.removeCanBeTakenEnPassantProperty(piece.color);
-    this.playerToMoveColor *= -1; // SWITCH COLOR 
+    this.togglePlayerToMoveColor();
     this.boardMatrix[from.x][from.y] = new Cell(from);    
     piece.move(to);
     this.boardMatrix[to.x][to.y] = new Cell(to,piece);

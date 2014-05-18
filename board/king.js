@@ -19,7 +19,7 @@ chessApp.factory('King', function(Piece){
 
 
   King.prototype.isLegalMove = function(newCoord){
-    if(this.x - newCoord.x <= 1 && this.y - newCoord.y <= 1){
+    if(Math.abs(this.x - newCoord.x) <= 1 && Math.abs(this.y - newCoord.y) <= 1){
       return true;
     }else{
       return false;

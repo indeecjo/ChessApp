@@ -16,6 +16,15 @@ chessApp.factory('Piece',function(){
     return {x:this.x,y: this.y};
   }
 
+  Piece.prototype.getOppositeColor = function(){
+    if(this.color === Piece.WHITE){
+      return Piece.BLACK;
+    }
+    if(this.color === Piece.BLACK){
+      return Piece.WHITE;
+    }
+  }
+
   Piece.WHITE = 'white';
   Piece.BLACK = 'black';
 
