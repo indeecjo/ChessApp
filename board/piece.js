@@ -12,6 +12,10 @@ chessApp.factory('Piece',function(){
     this.y = newCoord.y;
   }
 
+  Piece.prototype.getCoordinates = function(){
+    return {x:this.x,y: this.y};
+  }
+
   Piece.WHITE = 'white';
   Piece.BLACK = 'black';
 

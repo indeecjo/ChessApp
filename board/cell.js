@@ -19,7 +19,7 @@ chessApp.factory('Cell',function(){
 
 
 
-chessApp.directive('cell', function(Cell) {
+chessApp.directive('cell', function(Cell,Move) {
   return {
       restrict: 'AE',      
       link: function(scope,element,attrs){          
@@ -34,7 +34,9 @@ chessApp.directive('cell', function(Cell) {
                 }
                 var from = {x:obj.context.pieceObj.x ,y:obj.context.pieceObj.y};
                 var to = cellCoord;
-                if(scope.board.isLegalMove(from,to)){
+                var movingPiece = obj.context.pieceObj;
+                var move = new Move(from,to,movingPiece)
+                if(scope.board.isLegalMove(move) && !scope.board.isKingUnderAttackAfterMove(move)){
                   return true;
                 }
                 return false;

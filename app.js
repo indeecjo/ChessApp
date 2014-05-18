@@ -2,7 +2,7 @@
 
 var chessApp = angular.module('chess',[]);
 
-
+/*
 chessApp.directive('piece', function() {
   return {    
     restrict: 'AE',    
@@ -36,7 +36,9 @@ chessApp.directive('cell', function(Cell) {
                 }
                 var from = {x:obj.context.pieceObj.x ,y:obj.context.pieceObj.y};
                 var to = cellCoord;
-                if(scope.board.isLegalMove(from,to)){
+                var movingPiece = obj.context.pieceObj;
+                var move = new Move(from,to,piece)
+                if(scope.board.isLegalMove(move)){
                   return true;
                 }
                 return false;
@@ -54,4 +56,4 @@ chessApp.directive('cell', function(Cell) {
           });
         }
   }
-});
+});*/

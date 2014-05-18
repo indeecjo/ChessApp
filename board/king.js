@@ -6,6 +6,7 @@ chessApp.factory('King', function(Piece){
   }
 
   King.prototype = Object.create(Piece.prototype);
+  King.prototype.constructor = King;
 
   King.prototype.getUnicodeChar= function(){
     if(this.color == Piece.WHITE){
@@ -14,6 +15,8 @@ chessApp.factory('King', function(Piece){
       return '\u265A';
     }
   }
+
+
 
   King.prototype.isLegalMove = function(newCoord){
     if(this.x - newCoord.x <= 1 && this.y - newCoord.y <= 1){
