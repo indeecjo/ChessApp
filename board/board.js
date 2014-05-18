@@ -1,6 +1,55 @@
 'use strict';
 
-chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight){ 
+
+chessApp.controller('BoardCtrl',function($scope,Board){  
+    $scope.board = new Board();  
+
+    $('#promoteDialog').dialog({      
+      draggable:false,
+      resizable:false,
+      closeOnEscape:false,
+      modal: true,
+      autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: {
+        effect: "explode",
+        duration: 1000
+      },
+      buttons:{
+        Rook:function(){          
+          var boardScope = angular.element('#board_ctrl').scope();
+          boardScope.board.promotePawn(Board.ROOK);          
+          boardScope.$apply();
+           $( this ).dialog( "close" );
+        },
+        Bishop:function(){
+          var boardScope = angular.element('#board_ctrl').scope();
+          boardScope.board.promotePawn(Board.BISHOP);          
+          boardScope.$apply();
+           $( this ).dialog( "close" );
+        },
+        Knight:function(){
+          var boardScope = angular.element('#board_ctrl').scope();
+          boardScope.board.promotePawn(Board.KNIGHT);          
+          boardScope.$apply();           
+           $( this ).dialog( "close" );
+        },
+        Queen:function(){
+          var boardScope = angular.element('#board_ctrl').scope();
+          boardScope.board.promotePawn(Board.QUEEN);          
+          boardScope.$apply();
+           $( this ).dialog( "close" );
+        }
+
+      }
+
+    });
+})
+
+chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,Move){ 
 
   function Board(){            
     //this.initNewGame();    
@@ -16,6 +65,12 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight)
 
   Board.WHITE_TO_MOVE = 1;
   Board.BLACK_TO_MOVE = -1;
+  Board.ROOK = 'R';
+  Board.QUEEN = 'Q';
+  Board.BISHOP = 'B';
+  Board.PAWN = 'P';
+  Board.KNIGHT = 'N';
+  Board.KING = 'K';
 
 
 
@@ -44,17 +99,17 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight)
             color = Piece.BLACK;
           }
           curChar = curChar.toUpperCase();
-          if(curChar === 'P'){
+          if(curChar === Board.PAWN){
             newPiece = new Pawn(coord,color);
-          }else if(curChar === 'R'){
+          }else if(curChar === Board.ROOK){
             newPiece = new Rook(coord,color);
-          }else if(curChar === 'K'){
+          }else if(curChar === Board.KING){
             newPiece = new King(coord,color);
-          }else if(curChar === 'B'){
+          }else if(curChar === Board.BISHOP){
             newPiece = new Bishop(coord,color);
-          }else if(curChar === 'Q'){
+          }else if(curChar === Board.QUEEN){
             newPiece = new Queen(coord,color);
-          }else if(curChar === 'N'){
+          }else if(curChar === Board.KNIGHT){
             newPiece = new Knight(coord,color);
           }
           this.boardMatrix[lineIndex][rowIndex] = new Cell(coord,newPiece);
@@ -80,8 +135,7 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight)
     }
     else if(Math.abs(from.x - to.x) !== Math.abs(from.y - to.y)){
       return [];
-    }else{
-      debugger;
+    }else{      
       var i = from.x;
       var j = from.y;
       var xDirection = this.direction(from.x,to.x);
@@ -101,7 +155,9 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight)
     return ( (b-a) / Math.abs(b-a) ) ;
   }
 
-  Board.prototype.isLegalMove = function(from,to){        
+  Board.prototype.isLegalMove = function(move){        
+    var from = move.from;
+    var to = move.to;    
     if(typeof this.boardMatrix[from.x][from.y] === "undefined" || typeof this.boardMatrix[from.x][from.y].piece === "undefined" ){
       return false;
     }  
@@ -126,8 +182,41 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight)
         allCellsFree = false;
       }
     });
-    return allCellsFree;
-    return true;
+    if(allCellsFree){
+      return true;
+    }else{
+      return false;     
+    }
+  }
+
+  Board.prototype.isKingUnderAttackAfterMove = function(move){    
+    return false;
+    /*var that = this;
+    var pieces = this.getPiecesArray();
+    var kingCoordinates = undefined;
+    var result = false;
+    var from = move.from;
+    var to = move.to;
+    var moovingPiece = move.piece;    
+    this.boardMatrix[from.x][from.y] = new Cell(from);    
+    moovingPiece.move(to);
+    this.boardMatrix[to.x][to.y] = new Cell(to,moovingPiece);
+    angular.forEach(pieces,function(piece){      
+      if(piece.constructor.name === "King" && piece.color === moovingPiece.color){
+        kingCoordinates = piece.getCoordinates();
+      }
+    });    
+    angular.forEach(pieces,function(attackingPiece){      
+      
+      var attackingMove = new Move(attackingPiece.getCoordinates(),kingCoordinates,attackingPiece);
+      if(that.isLegalMove(attackingMove)){
+        result = true;
+      }
+    });    
+    this.boardMatrix[to.x][to.y] = new Cell(to);    
+    moovingPiece.move(from);
+    this.boardMatrix[from.x][from.y] = new Cell(from,moovingPiece);
+    return result;*/
   }
 
   Board.prototype.move = function(piece,from,to){
@@ -164,40 +253,40 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight)
     this.boardMatrix[newCoord.x][newCoord.y] = new Cell(newCoord);
   }  
 
+  Board.prototype.getPiecesArray = function(){
+    var result = [];
+    for(var i = 0; i<this.boardMatrix.length;i++){
+      for(var j=0;j<this.boardMatrix[i].length;j++){
+        if(this.boardMatrix[i][j].piece){
+          result.push(this.boardMatrix[i][j].piece);
+        }
+      }
+    }
+    return result;
+  }
+
+  Board.prototype.promotePawn = function(figureChar){
+    var pieces = this.getPiecesArray();
+    var pawnToPromote = undefined;
+    var newPiece = undefined;
+    for(var i=0;i<pieces.length;i++){
+      if(pieces[i].promoteMe){
+        pawnToPromote = pieces[i];
+      }
+    }
+    var coord = {x:pawnToPromote.x,y:pawnToPromote.y};
+    var color = pawnToPromote.color;
+    if(figureChar === Board.BISHOP){
+      newPiece = new Bishop(coord,color);
+    }else if(figureChar === Board.ROOK){
+      newPiece = new Rook(coord,color);
+    }else if(figureChar === Board.KNIGHT){
+      newPiece = new Knight(coord,color);
+    }else if(figureChar === Board.QUEEN){
+      newPiece = new Queen(coord,color);
+    }
+    this.boardMatrix[coord.x][coord.y] = new Cell(coord,newPiece);
+  }
+
   return Board;
 });
-
-chessApp.controller('BoardCtrl',function($scope,Board){  
-    $scope.board = new Board();  
-    $('#promoteDialog').dialog({
-      draggable:false,
-      resizable:false,
-      closeOnEscape:false,
-      modal: true,
-      autoOpen: false,
-      show: {
-        effect: "blind",
-        duration: 1000
-      },
-      hide: {
-        effect: "explode",
-        duration: 1000
-      },
-      buttons:{
-        Rook:function(){
-           $( this ).dialog( "close" );
-        },
-        Bishop:function(){
-           $( this ).dialog( "close" );
-        },
-        Knight:function(){
-           $( this ).dialog( "close" );
-        },
-        Queen:function(){
-           $( this ).dialog( "close" );
-        }
-
-      }
-
-    });
-})
