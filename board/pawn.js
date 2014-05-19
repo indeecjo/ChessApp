@@ -5,6 +5,7 @@ chessApp.factory('Pawn', function(Piece){
   }
 
   Pawn.prototype = Object.create(Piece.prototype);
+  Pawn.prototype.constructor = Pawn;
   
   Pawn.prototype.getUnicodeChar =  function(){
       if(this.color ==  Piece.WHITE){
