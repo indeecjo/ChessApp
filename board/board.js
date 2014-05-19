@@ -61,8 +61,8 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     this.whiteCanCastleQueenSide = true;
     this.boardMatrix = [];
     //this.readBoardMatrixFromFEN('r1b1kb1r/pppppppp/8/8/8/8/PPPPPPPP/R1B1KB1R');
-    //this.readBoardMatrixFromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
-    this.readBoardMatrixFromFEN('rnbqkbnr/8/8/8/8/8/8/RNBQKBNR');
+    this.readBoardMatrixFromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
+    //this.readBoardMatrixFromFEN('rnbqkbnr/8/8/8/8/8/8/RNBQKBNR');
   }
 
   Board.WHITE_TO_MOVE = 1;
@@ -214,9 +214,13 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
       var attackingPiece = pieces[i];
       if(attackingPiece.color === moovingPiece.getOppositeColor() ){        
         var attackingMove = new Move(attackingPiece.getCoordinates(),kingCoordinates,attackingPiece);
-        if(this.isLegalMove(attackingMove)){
-          result = true;
-          console.log(attackingMove);        
+        if(attackingPiece.constructor.name === "Pawn"){
+          if(attackingPiece.canTakeDirectly(kingCoordinates)){
+            result = true;
+          }
+        }
+        else if(this.isLegalMove(attackingMove)){
+          result = true;          
         }
       }
     }      
