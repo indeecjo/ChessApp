@@ -1,4 +1,7 @@
-
+/*
+All the credit for the design goes to  this awesome blog http://designindevelopment.com/
+Specificaly : http://designindevelopment.com/css/css3-chess-board/
+*/
 
 .chess_board { border:5px solid #333;cursor:auto; }
 .chess_board td {
