@@ -2,7 +2,9 @@
 
 chessApp.factory('King', function(Piece){
   function King(coord,color){
-    Piece.apply(this,arguments);      
+    Piece.apply(this,arguments);    
+    this.castleKingSide = false;
+    this.castleQueenSide = false;
   }
 
   King.prototype = Object.create(Piece.prototype);
@@ -19,15 +21,22 @@ chessApp.factory('King', function(Piece){
 
 
   King.prototype.isLegalMove = function(newCoord){
+    this.castleKingSide = false;
+    this.castleQueenSide = false;
     if(Math.abs(this.x - newCoord.x) <= 1 && Math.abs(this.y - newCoord.y) <= 1){
+      return true;
+    }else if(this.x === newCoord.x && this.y - newCoord.y === -2){
+      this.castleKingSide = true;
+      return true;
+    }else if(this.x === newCoord.x && this.y - newCoord.y === 2){
+      this.castleQueenSide = true;
       return true;
     }else{
       return false;
     }
   }
 
-
- return King;
+  return King;
 });
 
 

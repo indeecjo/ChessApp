@@ -28,7 +28,7 @@ chessApp.directive('cell', function(Cell,Move) {
           element.droppable({ 
               greedy:true ,           
               cursor: 'auto',
-              accept:function(obj){                 
+              accept:function(obj){                                 
                 if(typeof obj.context.pieceObj === "undefined"){
                   return false;
                 }

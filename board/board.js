@@ -55,13 +55,16 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
   function Board(){            
     //this.initNewGame();    
     this.playerToMoveColor = Board.WHITE_TO_MOVE;
-    this.blackCanCastleKingSide = true;
-    this.blackCanCastleQueenSide = true;
-    this.whiteCanCastleKingSide = true;
-    this.whiteCanCastleQueenSide = true;
+    this.canCastleKingSide = {};
+    this.canCastleKingSide[Piece.WHITE] = true;
+    this.canCastleKingSide[Piece.BLACK] = true;
+    this.canCastleQueenSide = {};    
+    this.canCastleQueenSide[Piece.WHITE] = true;
+    this.canCastleQueenSide[Piece.BLACK] = true;
     this.boardMatrix = [];
     //this.readBoardMatrixFromFEN('r1b1kb1r/pppppppp/8/8/8/8/PPPPPPPP/R1B1KB1R');
-    this.readBoardMatrixFromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
+    //this.readBoardMatrixFromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
+    this.readBoardMatrixFromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R3K2R');
     //this.readBoardMatrixFromFEN('rnbqkbnr/8/8/8/8/8/8/RNBQKBNR');
   }
 
@@ -163,7 +166,7 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     if(typeof this.boardMatrix[from.x][from.y] === "undefined" || typeof this.boardMatrix[from.x][from.y].piece === "undefined" ){
       return false;
     }  
-    var movingPiece = this.boardMatrix[from.x][from.y].piece;    
+    var movingPiece = move.piece;//this.boardMatrix[from.x][from.y].piece;        
     if((movingPiece.color === Piece.WHITE && this.playerToMoveColor === Board.BLACK_TO_MOVE )|| (movingPiece.color === Piece.BLACK && this.playerToMoveColor === Board.WHITE_TO_MOVE) ){
       return false;      
     }
@@ -176,23 +179,23 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     if(movingPiece.isLegalMove(to,this.boardMatrix) == false){
       return false;
     }
-    var coodrinatesOfCells = this.coordinatesPieceGoesOver(from,to);
-    var that = this;
+    var coodrinatesOfCells = this.coordinatesPieceGoesOver(from,to);    
     var allCellsFree = true;
     for(var i=0;i<coodrinatesOfCells.length;i++){
       var cell = coodrinatesOfCells[i];
-      if(typeof that.boardMatrix[cell.x][cell.y].piece !== "undefined"){
-        allCellsFree = false;
+      if(typeof this.boardMatrix[cell.x][cell.y].piece !== "undefined"){
+        return false;
       }
     }
-    if(allCellsFree){
-      return true;
-    }else{
-      return false;     
+    if(movingPiece.castleKingSide){
+      return this.canCastleKingSide[movingPiece.color];
+    }
+    if(movingPiece.castleQueenSide){
+     return this.canCastleQueenSide[movingPiece.color]; 
     }
   }
 
-  Board.prototype.isKingUnderAttackAfterMove = function(move){            
+  Board.prototype.isKingUnderAttackAfterMove = function(move){
     var kingCoordinates = undefined;
     var result = false;
     var from = move.from;
@@ -238,7 +241,7 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
   Board.prototype.move = function(piece,from,to){
     this.removeCanBeTakenEnPassantProperty(piece.color);
     this.togglePlayerToMoveColor();
-    this.boardMatrix[from.x][from.y] = new Cell(from);    
+    this.boardMatrix[from.x][from.y] = new Cell(from);
     piece.move(to);
     this.boardMatrix[to.x][to.y] = new Cell(to,piece);
     if(piece.intendToTakeEnPassant){
