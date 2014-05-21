@@ -6,6 +6,7 @@ chessApp.factory('Rook', function(Piece){
   }
 
   Rook.prototype = Object.create(Piece.prototype);
+  Rook.prototype.constructor = Rook;
 
   Rook.prototype.getUnicodeChar = function(){
     if(this.color == Piece.WHITE){

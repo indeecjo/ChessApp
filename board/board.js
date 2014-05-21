@@ -64,7 +64,7 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     this.boardMatrix = [];
     //this.readBoardMatrixFromFEN('r1b1kb1r/pppppppp/8/8/8/8/PPPPPPPP/R1B1KB1R');
     //this.readBoardMatrixFromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
-    this.readBoardMatrixFromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R3K2R');
+    this.readBoardMatrixFromFEN('rnbqkbnr/8/8/8/8/8/8/R3K2R');
     //this.readBoardMatrixFromFEN('rnbqkbnr/8/8/8/8/8/8/RNBQKBNR');
   }
 
@@ -186,16 +186,40 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
         return false;
       }
     }
-    if(movingPiece.castle !== King.NO_CASTLE){
+    if(movingPiece instanceof King && movingPiece.castle !== King.NO_CASTLE){
       return this.isCastleLegal(move);
     }
     return true;
   }
 
   Board.prototype.isCastleLegal = function(move){
-    if(this.isKingUnderAttack(kingColor)){
+    var king = move.piece;    
+    if(king.castle === King.CASTLE_KING_SIDE && ( !this.canCastleKingSide[king.color] || !(this.boardMatrix[king.x][7].piece instanceof Rook) || this.boardMatrix[king.x][0].piece.color !== king.color ) ){
       return false;
     }
+    if(king.castle === King.CASTLE_QUEEN_SIDE && ( !this.canCastleQueenSide[king.color] || !(this.boardMatrix[king.x][0].piece instanceof Rook) ||  this.boardMatrix[king.x][7].piece.color !== king.color ) ){
+      return false;
+    }
+    this.togglePlayerToMoveColor();
+    var kingUnderAttackNow = this.isKingUnderAttack(king.color);
+    this.togglePlayerToMoveColor();
+    var jumpingOver = undefined;
+    if(king.castle === King.CASTLE_KING_SIDE){
+      jumpingOver = {x:king.x,y:king.y+1};      
+    }else if(king.castle === King.CASTLE_QUEEN_SIDE){
+      jumpingOver = {x:king.x,y:king.y-1};      
+    }
+    var halfMove = new Move(move.from,jumpingOver,king);
+    var jumpingOverFieldUnderAttack = this.isKingUnderAttackAfterMove(halfMove);
+    if(kingUnderAttackNow || jumpingOverFieldUnderAttack){
+      return false;
+    }
+    if(king.castle === King.CASTLE_QUEEN_SIDE){
+      if(typeof this.boardMatrix[move.to.x][move.to.y-1].piece !== "undefined"){
+        return false;
+      }
+    }
+    return true;
   }
 
   Board.prototype.isKingUnderAttack = function(kingColor){
@@ -204,7 +228,7 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     var pieces = this.getPiecesArray();
     for(var i=0;i<pieces.length;i++){      
       var piece = pieces[i];
-      if(piece.constructor.name === "King" && piece.color === kingColor){
+      if(piece instanceof King && piece.color === kingColor){
         kingCoordinates = piece.getCoordinates();
         attackingPieceColor = piece.getOppositeColor();
       }
@@ -213,23 +237,22 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
       var attackingPiece = pieces[i];
       if(attackingPiece.color === attackingPieceColor ){        
         var attackingMove = new Move(attackingPiece.getCoordinates(),kingCoordinates,attackingPiece);
-        if(attackingPiece.constructor.name === "Pawn"){
+        if(attackingPiece instanceof Pawn){
           if(attackingPiece.canTakeDirectly(kingCoordinates)){
             return  true;
           }
-        }
-        else if(this.isLegalMove(attackingMove)){
+        }else if(this.isLegalMove(attackingMove)){
           return true;          
         }
       }
-    } 
+    }
     return false;     
   }
 
-  Board.prototype.isKingUnderAttackAfterMove = function(move){    
+  Board.prototype.isKingUnderAttackAfterMove = function(move){
     var result = false;
     var from = move.from;
-    var to = move.to;        
+    var to = move.to;
     var moovingPiece = move.piece;        
     this.boardMatrix[from.x][from.y] = new Cell(from);    
     moovingPiece.move(to);
@@ -248,28 +271,58 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
       this.playerToMoveColor *= -1; 
   }
 
-  Board.prototype.move = function(piece,from,to){
-    this.removeCanBeTakenEnPassantProperty(piece.color);
-    
+  Board.prototype.move = function(piece,from,to){    
+    this.removeCanBeTakenEnPassantProperty(piece.color);    
     this.boardMatrix[from.x][from.y] = new Cell(from);
     piece.move(to);
     this.boardMatrix[to.x][to.y] = new Cell(to,piece);
     this.togglePlayerToMoveColor();
     if(piece.intendToTakeEnPassant){
       this.removeEnPassantPiece(piece);      
+    }    
+    if(piece instanceof King && piece.castle !== King.NO_CASTLE){
+      this.completeCastle(piece);
+    }
+    if(piece instanceof Rook || piece instanceof King){
+      this.changeCastleStatus(piece);
     }
   }
 
-/*  Board.prototype.castleKingSide = function(){
-    var x = undefined;
-    if(this.playerToMoveColor === Board.WHITE_TO_MOVE){
-      x = 7;
-    }else{
-      x = 0;
+  Board.prototype.changeCastleStatus = function(piece){
+    if(piece instanceof King){
+      this.canCastleQueenSide[piece.color] = false;
+      this.canCastleKingSide[piece.color] = false;
+    }else if(piece instanceof Rook){
+      var x = undefined;
+      if(piece.color === Piece.BLACK){
+        x = 7;
+      }else if(piece.color === Piece.WHITE){
+        x = 0;
+      }
+      if( !(this.boardMatrix[x][0].piece instanceof Rook) ){
+        this.canCastleQueenSide[piece.color] = false;
+      }
+      if( !(this.boardMatrix[x][7].piece instanceof Rook) ){
+        this.canCastleKingSide[piece.color] = false;
+      }
     }
-    if(this.boardMatrix[x][7])
-    
-  }*/
+  }
+
+  Board.prototype.completeCastle = function(piece){    
+    var oldRookCoord = undefined;
+    var newRookCoord = undefined;
+    if(piece.castle === King.CASTLE_KING_SIDE){
+      oldRookCoord = {x:piece.x,y:7};      
+      newRookCoord = {x:piece.x,y:5};
+    }else if(piece.castle === King.CASTLE_QUEEN_SIDE){
+      oldRookCoord = {x:piece.x,y:0};      
+      newRookCoord = {x:piece.x,y:3};
+    }    
+    var movingRook = this.boardMatrix[oldRookCoord.x][oldRookCoord.y].piece;  
+    this.boardMatrix[oldRookCoord.x][oldRookCoord.y] = new Cell(oldRookCoord);
+    movingRook.move(newRookCoord);
+    this.boardMatrix[newRookCoord.x][newRookCoord.y] = new Cell(newRookCoord,movingRook);    
+  }
 
   Board.prototype.removeCanBeTakenEnPassantProperty = function(movingPieceColor){
     for(var i=0;i<8;i++){
