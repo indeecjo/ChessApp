@@ -61,10 +61,12 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     this.canCastleQueenSide = {};    
     this.canCastleQueenSide[Piece.WHITE] = true;
     this.canCastleQueenSide[Piece.BLACK] = true;
+    this.halfMovesSinceCaptureOrPawnAdvance = 0;
+    this.moveNumber = 0;
     this.boardMatrix = [];
     //this.readBoardMatrixFromFEN('r1b1kb1r/pppppppp/8/8/8/8/PPPPPPPP/R1B1KB1R');
     //this.readBoardMatrixFromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
-    this.readBoardMatrixFromFEN('rnbqkbnr/8/8/8/8/8/8/R3K2R');
+    this.initBoardMatrixFromFEN('rnbqkbnr/8/8/8/8/8/8/R3K2R');
     //this.readBoardMatrixFromFEN('rnbqkbnr/8/8/8/8/8/8/RNBQKBNR');
   }
 
@@ -77,11 +79,42 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
   Board.KNIGHT = 'N';
   Board.KING = 'K';
 
+  Board.prototype.initGameStateFromFEN = function(strFEN){
+    var splitedValues = strFEN.split(' ');
+    this.initBoardMatrixFromFEN(splitedValues[0]);
+    this.initPlayerToMoveFromFEN(splitedValues[1]);
+    this.initCanCastleFromFEN(splitedValues[2]);
+    this.initCanTakeEnPassant(splitedValues[3]);
+    this.initNumberOfHalfMoves(splitedValues[4]);
+    this.initMoveNumber(splitedValues[5]);
+  }
 
+  Board.prototype.initPlayerToMoveFromFEN = function(char){
+    if(char === 'w'){
+      this.playerToMoveColor = Board.WHITE_TO_MOVE;
+    }else if(char === 'b'){
+      this.playerToMoveColor = Board.BLACK_TO_MOVE;
+    }
+  }
 
-  Board.prototype.readBoardMatrixFromFEN = function(strFen){
+  Board.prototype.initCanCastleFromFEN = function(canCastleStr){
+    this.canCastleKingSide[Piece.WHITE] = canCastleStr.contains('K');
+    this.canCastleKingSide[Piece.BLACK] = canCastleStr.contains('k');
+    this.canCastleQueenSide[Piece.WHITE] = canCastleStr.contains('Q');
+    this.canCastleQueenSide[Piece.BLACK] = canCastleStr.contains('q');
+  }
+
+  Board.prototype.initNumberOfHalfMoves = function(numOfMoves){
+    this.halfMovesSinceCaptureOrPawnAdvance = parseInt(numOfMoves);
+  }
+
+  Board.prototype.initMoveNumber = function(moveNumber){
+    this.moveNumber = parseInt(moveNumber);
+  }
+
+  Board.prototype.initBoardMatrixFromFEN = function(strFEN){
     this.boardMatrix = [];
-    var arrFen = strFen.split('/');
+    var arrFen = strFEN.split('/');
     for(var lineIndex=0; lineIndex < arrFen.length; lineIndex++){
       var line = arrFen[lineIndex];
       this.boardMatrix[lineIndex] = [];
@@ -194,10 +227,14 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
 
   Board.prototype.isCastleLegal = function(move){
     var king = move.piece;    
-    if(king.castle === King.CASTLE_KING_SIDE && ( !this.canCastleKingSide[king.color] || !(this.boardMatrix[king.x][7].piece instanceof Rook) || this.boardMatrix[king.x][0].piece.color !== king.color ) ){
+    var rook = undefined;
+    if(typeof king === "undefined"){
       return false;
     }
-    if(king.castle === King.CASTLE_QUEEN_SIDE && ( !this.canCastleQueenSide[king.color] || !(this.boardMatrix[king.x][0].piece instanceof Rook) ||  this.boardMatrix[king.x][7].piece.color !== king.color ) ){
+    if(king.castle === King.CASTLE_KING_SIDE && !this.canCastleKingSide[king.color]  ){      
+      return false;
+    }    
+    if(king.castle === King.CASTLE_QUEEN_SIDE && !this.canCastleQueenSide[king.color] ){
       return false;
     }
     this.togglePlayerToMoveColor();
@@ -295,9 +332,9 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     }else if(piece instanceof Rook){
       var x = undefined;
       if(piece.color === Piece.BLACK){
-        x = 7;
-      }else if(piece.color === Piece.WHITE){
         x = 0;
+      }else if(piece.color === Piece.WHITE){
+        x = 7;
       }
       if( !(this.boardMatrix[x][0].piece instanceof Rook) ){
         this.canCastleQueenSide[piece.color] = false;
