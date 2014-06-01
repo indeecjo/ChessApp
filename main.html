@@ -7,7 +7,7 @@
 	<div ng-app="chess" >
 	<div ng-controller="BoardCtrl" id="board_ctrl">		
 			<table id="chess_board" class="chess_board">
-				<tr  ng-repeat="row in board.boardMatrix" >
+				<tr  ng-repeat="row in board.physicalBoard.getMatrix()" >
 					<td ng-repeat="cell in row" >
 						<span cell>
 							<piece ng-if="cell.piece"/>
@@ -27,7 +27,8 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>	
 	<script type="text/javascript" src="app.js"></script>
-	<script type="text/javascript" src="board/board.js"></script>
+	<script type="text/javascript" src="board/physical-board.js"></script>	
+	<script type="text/javascript" src="board/logical-board.js"></script>
 	<script type="text/javascript" src="board/cell.js"></script>		
 	<script type="text/javascript" src="board/rook.js"></script>		
 	<script type="text/javascript" src="board/piece.js"></script>	

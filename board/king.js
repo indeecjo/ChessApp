@@ -26,7 +26,7 @@ chessApp.factory('King', function(Piece){
   King.prototype.isLegalMove = function(newCoord){    
     if(Math.abs(this.x - newCoord.x) <= 1 && Math.abs(this.y - newCoord.y) <= 1){
       this.castle = King.NO_CASTLE;
-      return true;
+      return true; 
     }else if(this.x === newCoord.x && this.y - newCoord.y === -2){
       this.castle = King.CASTLE_KING_SIDE;
       return true;

@@ -14,6 +14,10 @@ chessApp.factory('Cell',function(){
   return x + ':' + y;
  }
 
+ Cell.prototype.isEmpty = function(){
+   return typeof this.piece === "undefined";
+ }
+
   return Cell;
 });
 
