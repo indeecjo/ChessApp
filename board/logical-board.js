@@ -279,7 +279,8 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
         var piece = this.physicalBoard.getPiece({x:i,y:j});
         if(typeof piece !== "undefined"){
           if(piece.color !== movingPieceColor){
-            piece.canBeTakenEnPassant = false;            
+            piece.canBeTakenEnPassant = false;    
+            piece.intendToTakeEnPassant = false;        
           }
         }
       }
@@ -287,7 +288,7 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
   }
 
   Board.prototype.removeEnPassantPiece = function(movedPiece){
-    var newCoord;
+    var newCoord;    
     if(movedPiece.color === Piece.WHITE){
       newCoord = {x:movedPiece.x+1,y:movedPiece.y};        
     }else{
