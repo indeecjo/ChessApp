@@ -13,8 +13,8 @@ body, html {
 	border:5px solid #333;
 	cursor:auto;
   	max-width: 90vh;
-  	max-height: 90vh;
-  	margin: 0 auto;  	
+  	max-height: 90vh; 
+  	margin:0 auto; 	
    	position: relative;   	
  }
 
@@ -43,15 +43,15 @@ body, html {
 .chess_board span {
 	color:#000;
 	display:block;
-	font-size:3em;
+	font-size:1em;
 	height:100%;
 	position:relative;
 	text-align: center;
 	text-decoration:none;
 	text-shadow:0 1px #fff;
 	width:100%;
-	min-height: 1.5em;
-	min-width: 1.5em;	
+	min-height: 2.5em;
+	min-width: 2.5em;	
 }
 
 .chess_board span:before {
