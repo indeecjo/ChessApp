@@ -43,14 +43,23 @@ body, html {
 .chess_board span {
 	color:#000;
 	display:block;
-	font-size:4em;
+	font-size:3em;
 	height:100%;
 	position:relative;
+	text-align: center;
 	text-decoration:none;
 	text-shadow:0 1px #fff;
 	width:100%;
 	min-height: 1.5em;
-	min-width: 2em;
+	min-width: 1.5em;
+}
+
+.chess_board span:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
 }
 
 piece{
@@ -70,33 +79,3 @@ div#promoteDialog{
 	display: none;
 }
 
-.square-box{
-    position: relative;
-    width: 50%;
-    overflow: hidden;
-    background: #4679BD;
-}
-.square-box:before{
-    content: "";
-    display: block;
-    padding-top: 100%;
-}
-.square-content{
-    position:  absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    color: white;
-}
-.square-content div {
-   display: table;
-   width: 100%;
-   height: 100%;
-}
-.square-content span {
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-    color: white
-}
