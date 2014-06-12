@@ -10,9 +10,9 @@
 			<table id="chess_board" class="chess_board">
 				<tr  ng-repeat="row in board.physicalBoard.getMatrix()" >
 					<td ng-repeat="cell in row" >
-						<span cell>
-							<piece ng-if="cell.piece"/>
-						</span>
+						<div cell class="cell">
+							<div class="wrapup" > <div piece class="piece" ng-if="cell.piece"/></div>
+						</div>
 					</td>
 				</tr>
 			</table>	    
