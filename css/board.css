@@ -50,6 +50,7 @@ Specificaly : http://designindevelopment.com/css/css3-chess-board/
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
 }
 
 div#promoteDialog{
