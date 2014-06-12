@@ -62,19 +62,15 @@ div#promoteDialog{
 @media only screen and (max-width : 480px)   {
 
    /* All your smartphone rules go inside here */
+.chess_board .cell {	
+	height:35px;	
+	width:35px;
+	font-size:30px;
+}
 
-.chess_board span {
-	color:#000;
-	display:block;
-	font-size:1em;
-	height:100%;
-	position:relative;
-	text-align: center;
-	text-decoration:none;
-	text-shadow:0 1px #fff;
-	width:100%;
-	min-height: 2em;
-	min-width: 2em;	
+.chess_board td {
+	height:35px;
+	width:35px;
 }
 
 }
