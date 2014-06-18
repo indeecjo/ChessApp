@@ -60,7 +60,7 @@ div#promoteDialog{
 
 
 /* -----------Smartphone View----------- */ 
-@media screen and (orientation:portrait) {
+@media only screen and (max-device-width: 768px) and (orientation:portrait) {
   
 .chess_board .cell {	
 	height:35px;	
@@ -75,7 +75,7 @@ div#promoteDialog{
 
 }
 
-@media screen and (orientation:landscape) {
+@media only screen and (max-device-width: 768px) and (orientation:landscape), screen and (max-device-width: 768px){
 
    /* All your smartphone rules go inside here */
 .chess_board .cell {	

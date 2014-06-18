@@ -1,54 +1,6 @@
 'use strict';
 
 
-chessApp.controller('BoardCtrl',function($scope,Board){  
-    window.MY_SCOPE = $scope;
-    $scope.board = new Board();  
-
-    $('#promoteDialog').dialog({      
-      draggable:false,
-      resizable:false,
-      closeOnEscape:false,
-      modal: true,
-      autoOpen: false,
-      show: {
-        effect: "blind",
-        duration: 1000
-      },
-      hide: {
-        effect: "explode",
-        duration: 1000
-      },
-      buttons:{
-        Rook:function(){          
-          var boardScope = angular.element('#board_ctrl').scope();
-          boardScope.board.promotePawn(Board.ROOK);          
-          boardScope.$apply();
-           $( this ).dialog( "close" );
-        },
-        Bishop:function(){
-          var boardScope = angular.element('#board_ctrl').scope();
-          boardScope.board.promotePawn(Board.BISHOP);          
-          boardScope.$apply();
-           $( this ).dialog( "close" );
-        },
-        Knight:function(){
-          var boardScope = angular.element('#board_ctrl').scope();
-          boardScope.board.promotePawn(Board.KNIGHT);          
-          boardScope.$apply();           
-           $( this ).dialog( "close" );
-        },
-        Queen:function(){
-          var boardScope = angular.element('#board_ctrl').scope();
-          boardScope.board.promotePawn(Board.QUEEN);          
-          boardScope.$apply();
-           $( this ).dialog( "close" );
-        }
-
-      }
-
-    });
-})
 
 chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,Move,PhysicalBoard){ 
 
@@ -63,10 +15,7 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     this.halfMovesSinceCaptureOrPawnAdvance = 0;
     this.moveNumber = 0;
     this.physicalBoard = new PhysicalBoard('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
-    //this.boardMatrix = [];
-    //this.readBoardMatrixFromFEN('r1b1kb1r/pppppppp/8/8/8/8/PPPPPPPP/R1B1KB1R');
-    //this.readBoardMatrixFromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');    
-    //this.readBoardMatrixFromFEN('rnbqkbnr/8/8/8/8/8/8/RNBQKBNR');
+    //this.physicalBoard = new PhysicalBoard('rnbqkbn1/pppppppP/8/8/8/8/PPPPPPPp/RNBQKBN1');    
   }
 
   Board.WHITE_TO_MOVE = 1;
