@@ -9,11 +9,11 @@ chessApp.factory('Rook', function(Piece){
   Rook.prototype.constructor = Rook;
 
   Rook.prototype.getUnicodeChar = function(){
-    if(this.color == Piece.WHITE){
+   /* if(this.color == Piece.WHITE){
       return '\u2656';
     }else if(this.color == Piece.BLACK){
       return '\u265C';
-    }
+    }*/
   }
 
   Rook.prototype.isLegalMove = function(newCoord){

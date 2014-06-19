@@ -12,10 +12,10 @@ Specificaly : http://designindevelopment.com/css/css3-chess-board/
 	box-shadow:inset 0 0 0 1px #fff;
 	-moz-box-shadow:inset 0 0 0 1px #fff;
 	-webkit-box-shadow:inset 0 0 0 1px #fff;
-	height:80px;
+	height:75px;
 	text-align:center;
 	vertical-align:middle;
-	width:80px;
+	width:75px;
 }
 .chess_board tr:nth-child(odd) td:nth-child(even),
 .chess_board tr:nth-child(even) td:nth-child(odd) {
@@ -30,18 +30,17 @@ Specificaly : http://designindevelopment.com/css/css3-chess-board/
 .chess_board .cell {
 	color:#000;
 	display:block;
-	font-size:60px;
-	height:80px;
+	font-size:58px;
+	height:75px;
 	position:relative;
 	text-decoration:none;
 	text-shadow:0 1px #fff;
-	width:80px;
+	width:75px;
 }
 
 .piece{
 	cursor:pointer;
 }
-
 
 .chess_board{
 	-webkit-touch-callout: none;
@@ -57,37 +56,33 @@ div#promoteDialog{
 	display: none;
 }
 
-
-
-/* -----------Smartphone View----------- */ 
 @media only screen and (max-device-width: 768px) and (orientation:portrait) {
-  
-.chess_board .cell {	
-	height:35px;	
-	width:35px;
-	font-size:30px;
-}
+	  
+	.chess_board .cell {	
+		height:35px;	
+		width:35px;
+		font-size:30px;
+	}
 
-.chess_board td {
-	height:35px;
-	width:35px;
-}
+	.chess_board td {
+		height:35px;
+		width:35px;
+	}
 
 }
 
 @media only screen and (max-device-width: 768px) and (orientation:landscape), screen and (max-device-width: 768px){
+		
+	.chess_board .cell {	
+		height:32px;	
+		width:32px;
+		font-size:28px;
+	}
 
-   /* All your smartphone rules go inside here */
-.chess_board .cell {	
-	height:32px;	
-	width:32px;
-	font-size:28px;
-}
-
-.chess_board td {
-	height:32px;
-	width:32px;
-}
+	.chess_board td {
+		height:32px;
+		width:32px;
+	}
 
 }
 

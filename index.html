@@ -3,6 +3,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-8">
 	<link rel="stylesheet" type="text/css" href="css/board.css">
+	<link rel="stylesheet" type="text/css" href="css/figures.css">
 </head>
 
 <body>
@@ -42,27 +43,38 @@
 	<script type="text/javascript" src="board/knight.js"></script>	
 	<script type="text/javascript" src="board/move.js"></script>	
 	<script src="jquery.ui.touch-punch.min.js"></script>
+	<script src="font-detector.js"></script>	
 	<script>
-	$(document).bind('touchmove', function(e) {
-		e.preventDefault();
-	});
 
-	$.fn.extend({
-    	disableSelection: function() {
-        	this.each(function() {
-            	this.onselectstart = function() {
-                	return false;
-            	};
-            	this.unselectable = "on";
-            	$(this).css('-moz-user-select', 'none');
-            	$(this).css('-webkit-user-select', 'none');
-        	});
-    	}
-	});
+		$(document).bind('touchmove', function(e) {
+			e.preventDefault();
+		});
 
-	$(document).ready(function(){
-   		$('.cell').disableSelection();    
-	});
+		$.fn.extend({
+	    	disableSelection: function() {
+	        	this.each(function() {
+	            	this.onselectstart = function() {
+	                	return false;
+	            	};
+	            	this.unselectable = "on";
+	            	$(this).css('-moz-user-select', 'none');
+	            	$(this).css('-webkit-user-select', 'none');
+	        	});
+	    	}
+		});
+
+		$(document).ready(function(){
+	   		$('.cell').disableSelection();   
+	   		var isDroidFont = new FontDetector().detect('droid sans');
+	   		if(isDroidFont){
+	   		  var cssDroidFix = document.createElement('link');
+			  cssDroidFix.rel = 'stylesheet';
+			  cssDroidFix.type = 'text/css';
+			  cssDroidFix.media = 'all';
+			  cssDroidFix.href = '/css/droid-font-fix.css';
+			  document.getElementsByTagName('head')[0].appendChild(cssDroidFix);
+	   		}
+		});
 
 	</script>
 

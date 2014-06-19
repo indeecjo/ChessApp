@@ -38,8 +38,9 @@ chessApp.directive('piece', function() {
     link: function(scope, element, attr) {
       var piece  = scope.cell.piece;      
       if(typeof piece !== "undefined"){      
-        element.html(piece.getUnicodeChar());        
-        element.prop('pieceObj',piece);
+        //element.html(piece.getUnicodeChar());        
+        element.prop('pieceObj',piece);        
+        element.addClass(piece.color + '-' + piece.constructor.name.toLowerCase());
         element.draggable({
           containment: "#chess_board",
           revert:"invalid",

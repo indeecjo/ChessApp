@@ -1,7 +1,13 @@
 chessApp.controller('BoardCtrl',function($scope,Board,PhysicalBoard){  
     window.MY_SCOPE = $scope;
     $scope.board = new Board();  
-
+    $scope.$on('PROMOTE',function(event,piece){      
+      $scope.$apply(function(){
+        $scope.board.physicalBoard.promotePawn(piece);
+      });
+      
+    });
+    
     $('#promoteDialog').dialog({      
       draggable:false,
       resizable:false,
@@ -17,33 +23,24 @@ chessApp.controller('BoardCtrl',function($scope,Board,PhysicalBoard){
         duration: 1000
       },
       buttons:{
-        Rook:function(){       
-          debugger;   
-          var boardScope = angular.element('#board_ctrl').scope();
-          boardScope.board.physicalBoard.promotePawn(PhysicalBoard.ROOK);          
-          boardScope.$apply();
+        Rook:function(){                 
+          angular.element('#board_ctrl').scope().$emit('PROMOTE',PhysicalBoard.ROOK);                              
            $( this ).dialog( "close" );
         },
         Bishop:function(){
-          var boardScope = angular.element('#board_ctrl').scope();
-          boardScope.board.physicalBoard.promotePawn(PhysicalBoard.BISHOP);          
-          boardScope.$apply();
+          angular.element('#board_ctrl').scope().$emit('PROMOTE',PhysicalBoard.BISHOP);                    
            $( this ).dialog( "close" );
         },
         Knight:function(){
-          var boardScope = angular.element('#board_ctrl').scope();
-          boardScope.board.physicalBoard.promotePawn(PhysicalBoard.KNIGHT);          
-          boardScope.$apply();           
+          angular.element('#board_ctrl').scope().$emit('PROMOTE',PhysicalBoard.KNIGHT);          
            $( this ).dialog( "close" );
         },
         Queen:function(){
-          var boardScope = angular.element('#board_ctrl').scope();
-          boardScope.board.physicalBoard.promotePawn(PhysicalBoard.QUEEN);          
-          boardScope.$apply();
+          angular.element('#board_ctrl').scope().$emit('PROMOTE',PhysicalBoard.QUEEN);                    
            $( this ).dialog( "close" );
         }
 
       }
 
-    });
-})
+    });    
+});

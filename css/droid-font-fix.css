@@ -1,0 +1,15 @@
+.white-king:before{
+	content: '\2655';	
+}
+
+.black-king:before{
+	content: '\265B';
+}
+
+.white-queen:before{
+	content: '\2654';	
+}
+
+.black-queen:before{
+	content: '\265A';
+}

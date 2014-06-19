@@ -6,7 +6,8 @@ chessApp.factory('Bishop', function(Piece){
   }
 
   Bishop.prototype = Object.create(Piece.prototype);
-
+  Bishop.prototype.constructor = Bishop;
+  
   Bishop.prototype.getUnicodeChar= function(){
     if(this.color == Piece.WHITE){
       return '\u2657';

@@ -1,0 +1,56 @@
+.white-king:before{
+	content: '\2654';	
+}
+
+.black-king:before{
+	content: '\265A';
+}
+
+.white-queen:before{
+	content: '\2655';	
+}
+
+.black-queen:before{
+	content: '\265B';
+}
+
+.white-rook:before{
+	content: '\2656';	
+}
+
+.black-rook:before{
+	content: '\265C';
+}
+
+.white-bishop:before{
+	content: '\2657';	
+}
+
+.black-bishop:before{
+	content: '\265D';
+}      
+
+.white-knight:before{
+	content: '\2658';	
+}
+
+.black-knight:before{
+	content: '\265E';
+}
+
+.white-pawn:before{
+	content: '\2659';	
+}
+
+.black-pawn:before{
+	content: '\265F';
+}
+
+.white-queen:before{
+	content: '\2655';	
+}
+
+.black-queen:before{
+	content: '\265B';
+}
+

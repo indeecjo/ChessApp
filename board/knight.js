@@ -6,7 +6,7 @@ chessApp.factory('Knight', function(Piece){
   }
 
   Knight.prototype = Object.create(Piece.prototype);
-
+  Knight.prototype.constructor = Knight;
   Knight.prototype.getUnicodeChar = function(){
     if(this.color == Piece.WHITE){
       return '\u2658';
