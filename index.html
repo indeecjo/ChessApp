@@ -71,7 +71,8 @@
 		$(document).ready(function(){
 	   		$('.cell').disableSelection();   
 	   		var isDroidFont = new FontDetector().detect('droid sans');
-	   		if(isDroidFont){
+	   		var isDroidFontFallback = new FontDetector().detect('droid sans fallback');
+	   		if(isDroidFont || isDroidFontFallback){
 	   		  var cssDroidFix = document.createElement('link');
 			  cssDroidFix.rel = 'stylesheet';
 			  cssDroidFix.type = 'text/css';
