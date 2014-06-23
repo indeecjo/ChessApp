@@ -41,8 +41,10 @@ chessApp.directive('cell', function(Cell,Move) {
                 var movingPiece = obj.context.pieceObj;
                 var move = new Move(from,to,movingPiece);
                 if(scope.board.isLegalMove(move) ){
-                  if(!scope.board.isKingUnderAttackAfterMove(move)){
+                  if(!scope.board.isKingUnderAttackAfterMove(move)){                    
                     return true;
+                  }else{
+                    scope.$emit('ENDANGERING_KING');                    
                   }
                 }
                 return false;
@@ -56,7 +58,9 @@ chessApp.directive('cell', function(Cell,Move) {
                   $('.ui-dialog-titlebar button').hide();                  
                 }
                 scope.$apply();                             
-              }
+              },
+              activeClass:"can-move"
+
           });
         }
   }

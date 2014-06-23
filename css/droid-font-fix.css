@@ -1,5 +1,5 @@
 .white-king:before{
-	content: '\2655' !important;	
+	content: '\2655';	
 }
 
 .black-king:before{
@@ -7,7 +7,7 @@
 }
 
 .white-queen:before{
-	content: '\2654' !important;	
+	content: '\2654';	
 }
 
 .black-queen:before{

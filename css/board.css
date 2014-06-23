@@ -27,6 +27,8 @@ Specificaly : http://designindevelopment.com/css/css3-chess-board/
 	-webkit-box-shadow:inset 0 0 10px rgba(0,0,0,.4);
 }
 
+
+
 .chess_board .cell {
 	color:#000;
 	display:block;
@@ -36,6 +38,11 @@ Specificaly : http://designindevelopment.com/css/css3-chess-board/
 	text-decoration:none;
 	text-shadow:0 1px #fff;
 	width:75px;
+}
+
+.can-move{
+	background-color: green;
+	opacity:0.2;
 }
 
 .piece{
