@@ -45,6 +45,11 @@ Specificaly : http://designindevelopment.com/css/css3-chess-board/
 	opacity:0.2;
 }
 
+.drop-here{
+	background-color: blue;
+	opacity:0.5;	
+}
+
 .piece{
 	cursor:pointer;
 }

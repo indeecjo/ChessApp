@@ -59,8 +59,9 @@ chessApp.directive('cell', function(Cell,Move) {
                 }
                 scope.$apply();                             
               },
-              activeClass:"can-move"
-
+              activeClass:"can-move",
+              hoverClass:"drop-here",
+              tolerance:'intersect'
           });
         }
   }
