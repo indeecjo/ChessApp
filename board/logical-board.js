@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,Move,PhysicalBoard){ 
 
   function Board(){                
@@ -13,13 +11,14 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     this.canCastleQueenSide[Piece.WHITE] = true;
     this.canCastleQueenSide[Piece.BLACK] = true;
     this.halfMovesSinceCaptureOrPawnAdvance = 0;
-    this.moveNumber = 0;
-    this.physicalBoard = new PhysicalBoard('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
+    this.moveNumber = 0;    
+    //this.physicalBoard = new PhysicalBoard('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
     //this.physicalBoard = new PhysicalBoard('rnbqkbn1/pppppppP/8/8/8/8/PPPPPPPp/RNBQKBN1');    
+    this.physicalBoard = new PhysicalBoard('7k/P7/8/8/8/8/8/R5QK');
   }
 
-  Board.WHITE_TO_MOVE = 1;
-  Board.BLACK_TO_MOVE = -1;
+  Board.WHITE_TO_MOVE = Piece.WHITE;
+  Board.BLACK_TO_MOVE = Piece.BLACK;
  
   Board.prototype.initGameStateFromFEN = function(strFEN){
     var splitedValues = strFEN.split(' ');
@@ -73,7 +72,7 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     if(movingPiece.isLegalMove(to,this.physicalBoard.getMatrix()) == false){ // Very bad matrix should be private (this is done for pawn enPassant logic lets rework) TODO
       return false;
     }
-    var coodrinatesOfCells = this.physicalBoard.coordinatesPieceGoesOver(from,to);        
+    var coodrinatesOfCells = this.physicalBoard.coordinatesPieceGoesOver(from,to);
     for(var i=0;i<coodrinatesOfCells.length;i++){
       var coord = coodrinatesOfCells[i];
       if(!this.physicalBoard.isEmpty(coord)){
@@ -120,7 +119,7 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     return true;
   }
 
-  Board.prototype.isKingUnderAttack = function(kingColor){
+  Board.prototype.isKingUnderAttack = function(kingColor){    
     var kingCoordinates = undefined;
     var attackingPieceColor = undefined;
     var pieces = this.physicalBoard.getPiecesArray();
@@ -147,26 +146,39 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     return false;     
   }
 
-  Board.prototype.isKingUnderAttackAfterMove = function(move){
+  Board.prototype.isCheck = function(){
+    var currentlyPlayingSideKing = this.playerToMoveColor;
+    this.togglePlayerToMoveColor();  
+    var result = this.isKingUnderAttack(currentlyPlayingSideKing);
+    this.togglePlayerToMoveColor();  
+    return result;
+  }
+
+  Board.prototype.isKingUnderAttackAfterMove = function(move){    
     var result = false;
     var from = move.from;
     var to = move.to;
     var moovingPiece = move.piece;        
-    this.physicalBoard.removePiece(from);//boardMatrix[from.x][from.y] = new Cell(from);    
+    this.physicalBoard.removePiece(from); 
     moovingPiece.move(to);
     var oldCellPiece = this.physicalBoard.getPiece(to);
-    this.physicalBoard.setPiece(to,moovingPiece);//boardMatrix[to.x][to.y] = new Cell(to,moovingPiece);
+    this.physicalBoard.setPiece(to,moovingPiece);
     this.togglePlayerToMoveColor();    
     result = this.isKingUnderAttack(moovingPiece.color);    
-    this.physicalBoard.setPiece(to,oldCellPiece);//this.boardMatrix[to.x][to.y] = new Cell(to,oldCellPiece);    
+    this.physicalBoard.setPiece(to,oldCellPiece);
     moovingPiece.move(from);
-    this.physicalBoard.setPiece(from,moovingPiece);//this.boardMatrix[from.x][from.y] = new Cell(from,moovingPiece);
-    this.togglePlayerToMoveColor();    
+    this.physicalBoard.setPiece(from,moovingPiece);
+    this.togglePlayerToMoveColor(); 
+
     return result;
   }
 
   Board.prototype.togglePlayerToMoveColor = function(){  
-      this.playerToMoveColor *= -1; 
+      if(this.playerToMoveColor == Board.WHITE_TO_MOVE){
+        this.playerToMoveColor = Board.BLACK_TO_MOVE; 
+      }else{
+        this.playerToMoveColor = Board.WHITE_TO_MOVE
+      }
   }
 
   Board.prototype.move = function(piece,from,to){    

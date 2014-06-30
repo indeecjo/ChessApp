@@ -1,11 +1,17 @@
 chessApp.controller('BoardCtrl',function($scope,Board,PhysicalBoard){  
     window.MY_SCOPE = $scope;
-    $scope.board = new Board();  
+    $scope.board = new Board(); 
+    $scope.isCheck = false;
+
+    $scope.$on('CHECK',function(event,isCheck){                
+      $scope.isCheck = isCheck;      
+    });    
+
     $scope.$on('PROMOTE',function(event,piece){      
       $scope.$apply(function(){
         $scope.board.physicalBoard.promotePawn(piece);
-      });
-      
+        $scope.isCheck = $scope.board.isCheck(); 
+      });      
     });
     
     $('#promoteDialog').dialog({      

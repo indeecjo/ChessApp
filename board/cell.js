@@ -43,16 +43,15 @@ chessApp.directive('cell', function(Cell,Move) {
                 if(scope.board.isLegalMove(move) ){
                   if(!scope.board.isKingUnderAttackAfterMove(move)){                    
                     return true;
-                  }else{
-                    scope.$emit('ENDANGERING_KING');                    
                   }
                 }
                 return false;
               },
               drop:function(event,ui) {                
                 var piece = ui.draggable.context.pieceObj;                
-                var oldCoord = {x:piece.x,y:piece.y};                
-                scope.board.move(piece,oldCoord,cellCoord);                                
+                var oldCoord = {x:piece.x,y:piece.y};                                
+                scope.board.move(piece,oldCoord,cellCoord);                          
+                scope.$emit('CHECK',scope.board.isCheck());                                    
                 if(piece.promoteMe){
                   $( "#promoteDialog" ).dialog("open");
                   $('.ui-dialog-titlebar button').hide();                  
