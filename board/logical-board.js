@@ -14,7 +14,7 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     this.moveNumber = 0;    
     this.physicalBoard = new PhysicalBoard('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
     //this.physicalBoard = new PhysicalBoard('rnbqkbn1/pppppppP/8/8/8/8/PPPPPPPp/RNBQKBN1');    
-    //this.physicalBoard = new PhysicalBoard('7k/P7/8/8/8/8/8/R5QK');
+    //this.physicalBoard = new PhysicalBoard('8/p7/P7/8/8/8/8/8');
   }
 
   Board.WHITE_TO_MOVE = Piece.WHITE;
@@ -60,6 +60,9 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
       return false;
     }  
     var movingPiece = move.piece;
+    if(to.x == 1 && to.y === 0){
+      debugger;
+    }
     if((movingPiece.color === Piece.WHITE && this.playerToMoveColor === Board.BLACK_TO_MOVE )|| (movingPiece.color === Piece.BLACK && this.playerToMoveColor === Board.WHITE_TO_MOVE) ){
       return false;      
     }

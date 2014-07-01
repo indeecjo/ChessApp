@@ -16,7 +16,7 @@ chessApp.factory('Pawn', function(Piece){
   }
 
   Pawn.prototype.isLegalMove = function(newCoord,board){ 
-    if(this.canMoveOnly(newCoord)){
+    if(this.canMoveOnly(newCoord) && typeof board[newCoord.x][newCoord.y].piece === "undefined"){
       return true;
     }
     if(this.canTakeDirectly(newCoord)){
