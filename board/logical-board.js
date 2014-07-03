@@ -59,10 +59,7 @@ chessApp.factory('Board',function(Pawn,Piece,Cell,Rook,King,Bishop,Queen,Knight,
     if(this.physicalBoard.isEmpty(from)){
       return false;
     }  
-    var movingPiece = move.piece;
-    if(to.x == 1 && to.y === 0){
-      debugger;
-    }
+    var movingPiece = move.piece;   
     if((movingPiece.color === Piece.WHITE && this.playerToMoveColor === Board.BLACK_TO_MOVE )|| (movingPiece.color === Piece.BLACK && this.playerToMoveColor === Board.WHITE_TO_MOVE) ){
       return false;      
     }

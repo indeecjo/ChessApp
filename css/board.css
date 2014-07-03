@@ -3,8 +3,9 @@ All the credit for the design goes to  this awesome blog http://designindevelopm
 Specificaly : http://designindevelopment.com/css/css3-chess-board/
 */
 
+body{height:100%;}
 
-.chess_board { border:5px solid #333;cursor:auto; }
+.chess_board { border:5px solid #333;cursor:auto;width:95vmin;height:95vmin; }
 .chess_board td {
 	background:#fff;
 	background:-moz-linear-gradient(top, #fff, #eee);
@@ -12,10 +13,10 @@ Specificaly : http://designindevelopment.com/css/css3-chess-board/
 	box-shadow:inset 0 0 0 1px #fff;
 	-moz-box-shadow:inset 0 0 0 1px #fff;
 	-webkit-box-shadow:inset 0 0 0 1px #fff;
-	height:75px;
+	height:12.5%;
 	text-align:center;
 	vertical-align:middle;
-	width:75px;
+	width:12.5%;
 }
 .chess_board tr:nth-child(odd) td:nth-child(even),
 .chess_board tr:nth-child(even) td:nth-child(odd) {
@@ -29,16 +30,19 @@ Specificaly : http://designindevelopment.com/css/css3-chess-board/
 
 
 
-.chess_board .cell {
+.chess_board .cell {	
 	color:#000;
 	display:block;
-	font-size:58px;
-	height:75px;
+	font-size:8vmin;
+	height:100%;
 	position:relative;
+	vertical-align:middle;
 	text-decoration:none;
 	text-shadow:0 1px #fff;
-	width:75px;
+	width:100%;
 }
+
+
 
 .can-move{
 	background-color: green;
@@ -52,6 +56,13 @@ Specificaly : http://designindevelopment.com/css/css3-chess-board/
 
 .piece{
 	cursor:pointer;
+	position: relative;
+  	top: 50%;
+  	transform: translateY(-50%);
+  	-webkit-transform: translateY(-50%);
+  	-moz-transform: translateY(-50%);
+  	-ms-transform: translateY(-50%);
+  	-o-transform: translateY(-50%);
 }
 
 .chess_board{
@@ -67,7 +78,7 @@ Specificaly : http://designindevelopment.com/css/css3-chess-board/
 div#promoteDialog{
 	display: none;
 }
-
+/*
 @media only screen and (max-device-width: 768px) and (orientation:portrait) {
 	  
 	.chess_board .cell {	
@@ -97,10 +108,4 @@ div#promoteDialog{
 	}
 
 }
-
-/* -----------Tablet View----------- */ 
-@media only screen and (max-width : 650px) and (min-width : 481px)   {
-
-   /* All your tablet rules go inside here */
-
-}
+*/
