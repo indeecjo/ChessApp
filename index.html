@@ -1,97 +1,97 @@
 <html>
-<head>	
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-8">
-	<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" /> -->
-	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 
-	<link rel="stylesheet" type="text/css" href="css/board.css">
-	<link rel="stylesheet" type="text/css" href="css/figures.css">
-	
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <!--320-->
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-8">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+  <!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />-->
+
+  <link rel="stylesheet" type="text/css" href="css/board.css">
+  <link rel="stylesheet" type="text/css" href="css/figures.css">
+
 </head>
 
 <body>
-	<div ng-app="chess" >
-	<div ng-controller="BoardCtrl" id="board_ctrl">		
-			<table id="chess_board" class="chess_board">
-				<tr  ng-repeat="row in board.physicalBoard.getMatrix()" >
-					<td ng-repeat="cell in row" >
-						<div cell class="cell">
-							 <div piece class="piece" ng-if="cell.piece"/>
-						</div>
-					</td>
-				</tr>
-			</table>	
-			<div collapse="!isCheck">    			
-				<alert type="danger">Check!!!</alert>
-			</div>	
-			<div id="promoteDialog" title="Pick a figure">
-  				<p>
-  					
-  				</p>
-		 	</div>
-	</div>		
-	</div>
-	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script> -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+  <div ng-app="chess">
+    <div ng-controller="BoardCtrl" id="board_ctrl">
+      <table id="chess_board" class="chess_board">
+        <tr ng-repeat="row in board.physicalBoard.getMatrix()">
+          <td ng-repeat="cell in row">
+            <div cell class="cell">
+              <div piece class="piece" ng-if="cell.piece" />
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div collapse="!isCheck">
+        <alert type="danger">Check!!!</alert>
+      </div>
+      <div id="promoteDialog" title="Pick a figure">
+        <p>
+
+        </p>
+      </div>
+    </div>
+  </div>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script>
+  <script type="text/javascript" src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
+  <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script> 
-	<script type="text/javascript" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>	
-	<script type="text/javascript" src="app.js"></script>	
-	<script type="text/javascript" src="board/physical-board.js"></script>	
-	<script type="text/javascript" src="board/logical-board.js"></script>
-	<script type="text/javascript" src="board/board-ctrl.js"></script>	
-	<script type="text/javascript" src="board/cell.js"></script>		
-	<script type="text/javascript" src="board/rook.js"></script>		
-	<script type="text/javascript" src="board/piece.js"></script>	
-	<script type="text/javascript" src="board/pawn.js"></script>	
-	<script type="text/javascript" src="board/king.js"></script>	
-	<script type="text/javascript" src="board/bishop.js"></script>	
-	<script type="text/javascript" src="board/queen.js"></script>	
-	<script type="text/javascript" src="board/knight.js"></script>	
-	<script type="text/javascript" src="board/move.js"></script>	
+	<script type="text/javascript" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>	-->
+  <script type="text/javascript" src="app.js"></script>
+  <script type="text/javascript" src="board/physical-board.js"></script>
+  <script type="text/javascript" src="board/logical-board.js"></script>
+  <script type="text/javascript" src="board/board-ctrl.js"></script>
+  <script type="text/javascript" src="board/cell.js"></script>
+  <script type="text/javascript" src="board/rook.js"></script>
+  <script type="text/javascript" src="board/piece.js"></script>
+  <script type="text/javascript" src="board/pawn.js"></script>
+  <script type="text/javascript" src="board/king.js"></script>
+  <script type="text/javascript" src="board/bishop.js"></script>
+  <script type="text/javascript" src="board/queen.js"></script>
+  <script type="text/javascript" src="board/knight.js"></script>
+  <script type="text/javascript" src="board/move.js"></script>
 
-	<script src="jquery.ui.touch-punch.min.js"></script>
-	<script src="font-detector.js"></script>	
-	<script>
-
-		$(document).bind('touchmove', function(e) {
-			e.preventDefault();
-		});
-
-		$.fn.extend({
-	    	disableSelection: function() {
-	        	this.each(function() {
-	            	this.onselectstart = function() {
-	                	return false;
-	            	};
-	            	this.unselectable = "on";
-	            	$(this).css('-moz-user-select', 'none');
-	            	$(this).css('-webkit-user-select', 'none');
-	        	});
-	    	}
-		});
-
-		$(document).ready(function(){
-	   		$('.cell').disableSelection();   
-	   		var isDroidFont = new FontDetector().detect('droid sans');
-	   		var isDroidFontFallback = new FontDetector().detect('droid sans fallback');
-	   		if(isDroidFont || isDroidFontFallback){
-	   		  var cssDroidFix = document.createElement('link');
-			  cssDroidFix.rel = 'stylesheet';
-			  cssDroidFix.type = 'text/css';
-			  cssDroidFix.media = 'all';
-			  cssDroidFix.href = 'css/droid-font-fix.css';
-			  document.getElementsByTagName('head')[0].appendChild(cssDroidFix);
-	   		}
-		});
-
-	</script>
+  <script src="jquery.ui.touch-punch.min.js"></script>
+  <script src="font-detector.js"></script>
+  <script>
+    $(document).bind('touchmove', function(e) {
+      e.preventDefault();
+    });
+    $.fn.extend({
+      disableSelection: function() {
+        this.each(function() {
+          this.onselectstart = function() {
+            return false;
+          };
+          this.unselectable = "on";
+          $(this).css('-moz-user-select', 'none');
+          $(this).css('-webkit-user-select', 'none');
+        });
+      }
+    });
+    $(document).ready(function() {
+      $('.cell').disableSelection();
+      var isDroidFont = new FontDetector().detect('droid sans');
+      var isDroidFontFallback = new FontDetector().detect('droid sans fallback');
+      if(isDroidFont || isDroidFontFallback) {
+        var cssDroidFix = document.createElement('link');
+        cssDroidFix.rel = 'stylesheet';
+        cssDroidFix.type = 'text/css';
+        cssDroidFix.media = 'all';
+        cssDroidFix.href = 'css/droid-font-fix.css';
+        document.getElementsByTagName('head')[0].appendChild(cssDroidFix);
+      }
+    });
+  </script>
 
 </body>
+
 </html>
 

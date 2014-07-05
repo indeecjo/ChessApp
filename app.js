@@ -1,3 +1,2 @@
 'use strict';
-
-var chessApp = angular.module('chess',['ui.bootstrap']);
+var chessApp = angular.module('chess', ['ui.bootstrap']);
