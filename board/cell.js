@@ -17,6 +17,7 @@ chessApp.factory('Cell', function() {
   };
   return Cell;
 });
+
 chessApp.directive('cell', function(Cell, Move) {
   return {
     restrict: 'AE',

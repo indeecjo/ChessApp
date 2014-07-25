@@ -60,7 +60,13 @@ chessApp.factory('Board', function(Pawn, Piece, Cell, Rook, King, Bishop, Queen,
         return false;
       }
     }
-    if(movingPiece.isLegalMove(to, this.physicalBoard.getMatrix()) == false) { // Very bad matrix should be private (this is done for pawn enPassant logic lets rework) TODO
+    var takenEnPassantPiece = undefined;
+    if(movingPiece.color === Piece.WHITE){
+      takenEnPassantPiece = this.physicalBoard.getPiece({x:to.x+1,y:to.y});
+    }else if(movingPiece.color === Piece.BLACK){
+      takenEnPassantPiece = this.physicalBoard.getPiece({x:to.x-1,y:to.y});
+    }
+    if(!movingPiece.isLegalMove(to, this.physicalBoard.isEmpty(to),takenEnPassantPiece)) {
       return false;
     }
     var coodrinatesOfCells = this.physicalBoard.coordinatesPieceGoesOver(from, to);
@@ -178,7 +184,7 @@ chessApp.factory('Board', function(Pawn, Piece, Cell, Rook, King, Bishop, Queen,
     this.removeCanBeTakenEnPassantProperty(piece.color);
     this.physicalBoard.removePiece(from);
     piece.move(to);
-    this.physicalBoard.setPiece(to, piece); //this.boardMatrix[to.x][to.y] = new Cell(to,piece);
+    this.physicalBoard.setPiece(to, piece);
     this.togglePlayerToMoveColor();
     if(piece.intendToTakeEnPassant) {
       this.removeEnPassantPiece(piece);

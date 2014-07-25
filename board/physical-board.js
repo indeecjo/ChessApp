@@ -137,6 +137,9 @@ chessApp.factory('PhysicalBoard', function(Pawn, Piece, Cell, Rook, King, Bishop
     return this.boardMatrix.get(coord) === "undefined" || this.boardMatrix[coord.x][coord.y].isEmpty();
   }
   PhysicalBoard.prototype.getPiece = function(coord) {
+    if(!this.boardMatrix[coord.x]){
+      return false;
+    }
     return this.boardMatrix[coord.x][coord.y].piece;
   }
   PhysicalBoard.prototype.setPiece = function(coord, piece) {

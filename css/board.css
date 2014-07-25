@@ -78,34 +78,3 @@ body{height:100%;}
 div#promoteDialog{
 	display: none;
 }
-/*
-@media only screen and (max-device-width: 768px) and (orientation:portrait) {
-	  
-	.chess_board .cell {	
-		height:35px;	
-		width:35px;
-		font-size:30px;
-	}
-
-	.chess_board td {
-		height:35px;
-		width:35px;
-	}
-
-}
-
-@media only screen and (max-device-width: 768px) and (orientation:landscape), screen and (max-device-width: 768px){
-		
-	.chess_board .cell {	
-		height:32px;	
-		width:32px;
-		font-size:28px;
-	}
-
-	.chess_board td {
-		height:32px;
-		width:32px;
-	}
-
-}
-*/

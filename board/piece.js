@@ -27,6 +27,7 @@ chessApp.factory('Piece', function() {
   Piece.BLACK = 'black';
   return Piece;
 });
+
 chessApp.directive('piece', function() {
   return {
     restrict: 'AE',

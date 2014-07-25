@@ -1,10 +1,13 @@
 chessApp.factory('Pawn', function(Piece) {
+  
   function Pawn(coord, color) {
     Piece.apply(this, arguments);
     this.canBeTakenEnPassant = false;
   }
+  
   Pawn.prototype = Object.create(Piece.prototype);
   Pawn.prototype.constructor = Pawn;
+  
   Pawn.prototype.getUnicodeChar = function() {
     if(this.color == Piece.WHITE) {
       return '\u2659';
@@ -12,21 +15,21 @@ chessApp.factory('Pawn', function(Piece) {
       return '\u265F';
     }
   }
-  Pawn.prototype.isLegalMove = function(newCoord, board) {
-    if(this.canMoveOnly(newCoord) && typeof board[newCoord.x][newCoord.y].piece === "undefined") {
+
+  Pawn.prototype.isLegalMove = function(newCoord, isDestinationClear,takenEnPassantPiece) {
+    if(this.canMoveOnly(newCoord) && isDestinationClear ) {
       return true;
     }
-    if(this.canTakeDirectly(newCoord)) {
-      if(typeof board[newCoord.x][newCoord.y].piece !== "undefined") {
-        return true;
-      }
+    if(this.canTakeDirectly(newCoord) && !isDestinationClear) {      
+        return true;      
     }
-    if(this.canTakeEnPassant(newCoord, board)) {
+    if(this.canTakeEnPassant(newCoord, takenEnPassantPiece)) {
       this.intendToTakeEnPassant = true;
       return true;
     }
     return false;
   }
+  
   Pawn.prototype.canTakeDirectly = function(newCoord) {
     if(newCoord.y === this.y + 1 || newCoord.y === this.y - 1) {
       if(this.color == Piece.BLACK) {
@@ -64,19 +67,9 @@ chessApp.factory('Pawn', function(Piece) {
     }
     return false;
   }
-  Pawn.prototype.canTakeEnPassant = function(newCoord, board) {
-    var takenPiece;
+  Pawn.prototype.canTakeEnPassant = function(newCoord, takenPiece) {
     if(newCoord.y === this.y + 1 || newCoord.y === this.y - 1) {
-      if(this.color == Piece.BLACK) {
-        if(typeof board[newCoord.x - 1] !== "undefined") {
-          return this.canTakePieceEnPassant(board[newCoord.x - 1][newCoord.y].piece);
-        }
-      }
-      if(this.color == Piece.WHITE) {
-        if(typeof board[newCoord.x + 1] !== "undefined") {
-          return this.canTakePieceEnPassant(board[newCoord.x + 1][newCoord.y].piece);
-        }
-      }
+      return this.canTakePieceEnPassant(takenPiece);
     }
     return false;
   }
