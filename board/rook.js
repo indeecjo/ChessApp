@@ -1,3 +1,4 @@
+(function(){
 'use strict';
 chessApp.factory('Rook', function(Piece) {
   function Rook(coord, color) {
@@ -21,3 +22,5 @@ chessApp.factory('Rook', function(Piece) {
   }
   return Rook;
 });
+
+})();

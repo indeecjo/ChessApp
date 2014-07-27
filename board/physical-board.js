@@ -7,12 +7,14 @@ chessApp.factory('PhysicalBoard', function(Pawn, Piece, Cell, Rook, King, Bishop
     }
     this.initBoardMatrixFromFEN(strFEN);
   }
+  
   PhysicalBoard.ROOK = 'R';
   PhysicalBoard.QUEEN = 'Q';
   PhysicalBoard.BISHOP = 'B';
   PhysicalBoard.PAWN = 'P';
   PhysicalBoard.KNIGHT = 'N';
   PhysicalBoard.KING = 'K';
+  
   PhysicalBoard.prototype.initBoardMatrixFromFEN = function(strFEN) {
     var arrFen = strFEN.split('/');
     for(var lineIndex = 0; lineIndex < arrFen.length; lineIndex++) {
@@ -21,7 +23,7 @@ chessApp.factory('PhysicalBoard', function(Pawn, Piece, Cell, Rook, King, Bishop
       var rowIndex = 0;
       for(var i = 0; i < line.length; i++) {
         var curChar = line[i];
-        var color, coord, newCell, newPiece = undefined;
+        var color, coord, newPiece;
         coord = {
           x: lineIndex,
           y: rowIndex
@@ -60,10 +62,12 @@ chessApp.factory('PhysicalBoard', function(Pawn, Piece, Cell, Rook, King, Bishop
         }
       }
     }
-  }
+  };
+  
   PhysicalBoard.prototype.move = function(from, to) {
     this.getPiece(from);
-  }
+  };
+  
   PhysicalBoard.prototype.coordinatesPieceGoesOver = function(from, to) {
     var result = [];
     if(from.x === to.x) {
@@ -75,7 +79,7 @@ chessApp.factory('PhysicalBoard', function(Pawn, Piece, Cell, Rook, King, Bishop
       }
       return result;
     } else if(from.y === to.y) {
-      for(var i = Math.min(from.x, to.x) + 1; i < Math.max(from.x, to.x); i++) {
+      for(i = Math.min(from.x, to.x) + 1; i < Math.max(from.x, to.x); i++) {
         result.push({
           x: i,
           y: from.y
@@ -85,7 +89,7 @@ chessApp.factory('PhysicalBoard', function(Pawn, Piece, Cell, Rook, King, Bishop
     } else if(Math.abs(from.x - to.x) !== Math.abs(from.y - to.y)) {
       return [];
     } else {
-      var i = from.x;
+      i = from.x;
       var j = from.y;
       var xDirection = this.direction(from.x, to.x);
       var yDirection = this.direction(from.y, to.y);
@@ -107,8 +111,8 @@ chessApp.factory('PhysicalBoard', function(Pawn, Piece, Cell, Rook, King, Bishop
   }
   PhysicalBoard.prototype.promotePawn = function(figureChar) {
     var pieces = this.getPiecesArray();
-    var pawnToPromote = undefined;
-    var newPiece = undefined;
+    var pawnToPromote;
+    var newPiece;
     for(var i = 0; i < pieces.length; i++) {
       if(pieces[i].promoteMe) {
         pawnToPromote = pieces[i];
@@ -129,25 +133,31 @@ chessApp.factory('PhysicalBoard', function(Pawn, Piece, Cell, Rook, King, Bishop
       newPiece = new Queen(coord, color);
     }
     this.boardMatrix[coord.x][coord.y] = new Cell(coord, newPiece);
-  }
+  };
+  
   PhysicalBoard.prototype.removePiece = function(coord) {
     this.boardMatrix[coord.x][coord.y] = new Cell(coord);
-  }
+  };
+  
   PhysicalBoard.prototype.isEmpty = function(coord) {
     return this.boardMatrix.get(coord) === "undefined" || this.boardMatrix[coord.x][coord.y].isEmpty();
-  }
+  };
+  
   PhysicalBoard.prototype.getPiece = function(coord) {
     if(!this.boardMatrix[coord.x]){
       return false;
     }
     return this.boardMatrix[coord.x][coord.y].piece;
-  }
+  };
+  
   PhysicalBoard.prototype.setPiece = function(coord, piece) {
     this.boardMatrix[coord.x][coord.y] = new Cell(coord, piece);
-  }
+  };
+  
   PhysicalBoard.prototype.getMatrix = function() {
     return this.boardMatrix;
-  }
+  };
+  
   PhysicalBoard.prototype.getPiecesArray = function() {
     var result = [];
     for(var i = 0; i < this.boardMatrix.length; i++) {
@@ -158,6 +168,7 @@ chessApp.factory('PhysicalBoard', function(Pawn, Piece, Cell, Rook, King, Bishop
       }
     }
     return result;
-  }
+  };
+  
   return PhysicalBoard;
 });
