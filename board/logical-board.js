@@ -77,7 +77,7 @@
      *@param <Move> move 
      *@return <Boolean> isLegalMove
      **/
-    Board.prototype.isLegalMove = functionisLegalMove (move) {
+    Board.prototype.isLegalMove = function isLegalMove(move) {
       var from = move.from;
       var to = move.to;
       if(this.physicalBoard.isEmpty(from)) {
@@ -115,7 +115,7 @@
           return false;
         }
       }
-      if(movingPiece instanceof King && movingPiece.castle !== King.NO_CASTLE) {
+      if(movingPiece instanceof King && movingPiece.castle !== King.CastleStatus.NO_CASTLE) {
         return this.isCastleLegal(move);
       }
       return true;
@@ -131,22 +131,22 @@
       if(typeof king === "undefined") {
         return false;
       }
-      if(king.castle === King.CASTLE_KING_SIDE && !this.canCastleKingSide[king.color]) {
+      if(king.castle === King.CastleStatus.CASTLE_KING_SIDE && !this.canCastleKingSide[king.color]) {
         return false;
       }
-      if(king.castle === King.CASTLE_QUEEN_SIDE && !this.canCastleQueenSide[king.color]) {
+      if(king.castle === King.CastleStatus.CASTLE_QUEEN_SIDE && !this.canCastleQueenSide[king.color]) {
         return false;
       }
       this.togglePlayerToMoveColor();
       var kingUnderAttackNow = this.isKingUnderAttack(king.color);
       this.togglePlayerToMoveColor();
       var jumpingOver;
-      if(king.castle === King.CASTLE_KING_SIDE) {
+      if(king.castle === King.CastleStatus.CASTLE_KING_SIDE) {
         jumpingOver = {
           x: king.x,
           y: king.y + 1
         };
-      } else if(king.castle === King.CASTLE_QUEEN_SIDE) {
+      } else if(king.castle === King.CastleStatus.CASTLE_QUEEN_SIDE) {
         jumpingOver = {
           x: king.x,
           y: king.y - 1
@@ -157,7 +157,7 @@
       if(kingUnderAttackNow || jumpingOverFieldUnderAttack) {
         return false;
       }
-      if(king.castle === King.CASTLE_QUEEN_SIDE) {
+      if(king.castle === King.CastleStatus.CASTLE_QUEEN_SIDE) {
         if(this.physicalBoard.isEmpty({
           x: move.to.x,
           y: move.to.y - 1
@@ -260,7 +260,7 @@
       if(piece.intendToTakeEnPassant) {
         this.removeEnPassantPiece(piece);
       }
-      if(piece instanceof King && piece.castle !== King.NO_CASTLE) {
+      if(piece instanceof King && piece.castle !== King.CastleStatus.NO_CASTLE) {
         this.completeCastle(piece);
       }
       if(piece instanceof Rook || piece instanceof King) {
@@ -305,7 +305,7 @@
     Board.prototype.completeCastle = function completeCastle(piece) {
       var oldRookCoord;
       var newRookCoord;
-      if(piece.castle === King.CASTLE_KING_SIDE) {
+      if(piece.castle === King.CastleStatus.CASTLE_KING_SIDE) {
         oldRookCoord = {
           x: piece.x,
           y: 7
@@ -314,7 +314,7 @@
           x: piece.x,
           y: 5
         };
-      } else if(piece.castle === King.CASTLE_QUEEN_SIDE) {
+      } else if(piece.castle === King.CastleStatus.CASTLE_QUEEN_SIDE) {
         oldRookCoord = {
           x: piece.x,
           y: 0
