@@ -15,6 +15,11 @@
         return '\u265F';
       }
     };
+
+    /**
+      * @param <Object> newCoord destination coorinates
+      * @return <Boolean> is legal move
+      **/
     Pawn.prototype.isLegalMove = function (newCoord, isDestinationClear, takenEnPassantPiece) {
       if(this.canMoveOnly(newCoord) && isDestinationClear) {
         return true;

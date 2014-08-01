@@ -1,7 +1,8 @@
 /* global angular:false*/
-(function () {
+;(function () {
   'use strict';
   angular.module('chess').controller('BoardCtrl', function ($scope, Board, PhysicalBoard) {
+    //FIXME: used for debugging
     window.MY_SCOPE = $scope;
     $scope.board = new Board();
     $scope.isCheck = false;

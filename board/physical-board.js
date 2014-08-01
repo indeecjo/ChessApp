@@ -15,6 +15,10 @@
     PhysicalBoard.PAWN = 'P';
     PhysicalBoard.KNIGHT = 'N';
     PhysicalBoard.KING = 'K';
+
+    /**
+     *@param <String> strFEN String starting position in FEN format
+     **/
     PhysicalBoard.prototype.initBoardMatrixFromFEN = function (strFEN) {
       var arrFen = strFEN.split('/');
       for(var lineIndex = 0; lineIndex < arrFen.length; lineIndex++) {
@@ -63,9 +67,12 @@
         }
       }
     };
-    PhysicalBoard.prototype.move = function (from, to) {
-      this.getPiece(from);
-    };
+
+    /**
+     * @param <Object> from
+     * @param <Object> from
+     * @Return <Array> result coordinates either from vertical horizontal or diagonal move
+     **/
     PhysicalBoard.prototype.coordinatesPieceGoesOver = function (from, to) {
       var result = [];
       var i;
@@ -105,9 +112,19 @@
         return result;
       }
     };
+
+    /**
+     * @param <Number> a
+     * @param <Number> b
+     * @Return <Number> -1 if a > b ,  0  if a == b , 1 if a > b
+     **/
     PhysicalBoard.prototype.direction = function (a, b) {
       return((b - a) / Math.abs(b - a));
     };
+
+    /**
+     * @param <String> figureChar char (KQRB) to which figure to promote 
+     **/
     PhysicalBoard.prototype.promotePawn = function (figureChar) {
       var pieces = this.getPiecesArray();
       var pawnToPromote;
@@ -133,24 +150,44 @@
       }
       this.boardMatrix[coord.x][coord.y] = new Cell(coord, newPiece);
     };
+
+    /**
+     * @param <Object> coord coorinates
+     **/
     PhysicalBoard.prototype.removePiece = function (coord) {
       this.boardMatrix[coord.x][coord.y] = new Cell(coord);
     };
+
+     /**
+     * @param <Object> coord coorinates
+     **/
     PhysicalBoard.prototype.isEmpty = function (coord) {
       return this.boardMatrix.get(coord) === "undefined" || this.boardMatrix[coord.x][coord.y].isEmpty();
     };
+
+     /**
+     * @param <Object> coord coorinates
+     **/
     PhysicalBoard.prototype.getPiece = function (coord) {
       if(!this.boardMatrix[coord.x]) {
         return false;
       }
       return this.boardMatrix[coord.x][coord.y].piece;
     };
+
+     /**
+     * @param <Object> coord coorinates
+     **/
     PhysicalBoard.prototype.setPiece = function (coord, piece) {
       this.boardMatrix[coord.x][coord.y] = new Cell(coord, piece);
     };
     PhysicalBoard.prototype.getMatrix = function () {
       return this.boardMatrix;
     };
+
+     /**
+     * @return <Array<Piece>> array of pieces
+     **/
     PhysicalBoard.prototype.getPiecesArray = function () {
       var result = [];
       for(var i = 0; i < this.boardMatrix.length; i++) {

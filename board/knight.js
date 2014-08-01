@@ -14,6 +14,11 @@
         return '\u265E';
       }
     };
+
+    /**
+      * @param <Object> newCoord destination coorinates
+      * @return <Boolean> is legal move
+      **/
     Knight.prototype.isLegalMove = function (newCoord) {
       if((Math.abs(this.x - newCoord.x) == 1 && Math.abs(this.y - newCoord.y) == 2) || (Math.abs(this.x - newCoord.x) == 2 && Math.abs(this.y - newCoord.y) == 1)) {
         return true;

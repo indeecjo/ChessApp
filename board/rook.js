@@ -14,6 +14,11 @@
       return '\u265C';
     }*/
     };
+
+    /**
+      * @param <Object> newCoord destination coorinates
+      * @return <Boolean> is legal move
+      **/
     Rook.prototype.isLegalMove = function (newCoord) {
       if(this.x === newCoord.x || this.y === newCoord.y) {
         return true;

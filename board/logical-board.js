@@ -2,6 +2,8 @@
 (function () {
   'use strict';
   angular.module('chess').factory('Board', function (Pawn, Piece, Cell, Rook, King, Bishop, Queen, Knight, Move, PhysicalBoard) {
+    
+
     function Board() {
       this.playerToMoveColor = Board.WHITE_TO_MOVE;
       this.canCastleKingSide = {};
@@ -12,13 +14,18 @@
       this.canCastleQueenSide[Piece.BLACK] = true;
       this.halfMovesSinceCaptureOrPawnAdvance = 0;
       this.moveNumber = 0;
+      // TODO: Load table initial postition from external source
       this.physicalBoard = new PhysicalBoard('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
       //this.physicalBoard = new PhysicalBoard('rnbqkbn1/pppppppP/8/8/8/8/PPPPPPPp/RNBQKBN1');    
       //this.physicalBoard = new PhysicalBoard('8/p7/P7/8/8/8/8/8');
     }
     Board.WHITE_TO_MOVE = Piece.WHITE;
     Board.BLACK_TO_MOVE = Piece.BLACK;
-    Board.prototype.initGameStateFromFEN = function (strFEN) {
+    
+    /**
+     *@param <String> strFEN String starting position in FEN format
+     **/
+    Board.prototype.initGameStateFromFEN = function initGameStateFromFEN(strFEN) {
       var splitedValues = strFEN.split(' ');
       this.initBoardMatrixFromFEN(splitedValues[0]);
       this.initPlayerToMoveFromFEN(splitedValues[1]);
@@ -27,26 +34,50 @@
       this.initNumberOfHalfMoves(splitedValues[4]);
       this.initMoveNumber(splitedValues[5]);
     };
-    Board.prototype.initPlayerToMoveFromFEN = function (char) {
+
+    /**
+     *@param <String> char w - white , b - black
+     **/
+    Board.prototype.initPlayerToMoveFromFEN = function initPlayerToMoveFromFEN(char) {
       if(char === 'w') {
         this.playerToMoveColor = Board.WHITE_TO_MOVE;
       } else if(char === 'b') {
         this.playerToMoveColor = Board.BLACK_TO_MOVE;
       }
     };
-    Board.prototype.initCanCastleFromFEN = function (canCastleStr) {
+
+    /**
+     *@param <String> canCastleStr k - king side q -queen side (uppder case White)
+     **/
+    Board.prototype.initCanCastleFromFEN = function initCanCastleFromFEN(canCastleStr) {
       this.canCastleKingSide[Piece.WHITE] = canCastleStr.contains('K');
       this.canCastleKingSide[Piece.BLACK] = canCastleStr.contains('k');
       this.canCastleQueenSide[Piece.WHITE] = canCastleStr.contains('Q');
       this.canCastleQueenSide[Piece.BLACK] = canCastleStr.contains('q');
     };
-    Board.prototype.initNumberOfHalfMoves = function (numOfMoves) {
+
+    /**
+     * This parameter is used for determining draw after 40 moves without capture
+     * or paen advance 
+     * TODO : Add logic to class 
+     *@param <Number> numOfMoves number of half moves since last capture or pawn advance
+     **/
+    Board.prototype.initNumberOfHalfMoves = function initNumberOfHalfMoves(numOfMoves) {
       this.halfMovesSinceCaptureOrPawnAdvance = parseInt(numOfMoves, 10);
     };
-    Board.prototype.initMoveNumber = function (moveNumber) {
+
+    /**
+     *@param <Number> moveNumber  number of moves from start of game
+     **/
+    Board.prototype.initMoveNumber = function initMoveNumber(moveNumber) {
       this.moveNumber = parseInt(moveNumber, 10);
     };
-    Board.prototype.isLegalMove = function (move) {
+
+    /**
+     *@param <Move> move 
+     *@return <Boolean> isLegalMove
+     **/
+    Board.prototype.isLegalMove = functionisLegalMove (move) {
       var from = move.from;
       var to = move.to;
       if(this.physicalBoard.isEmpty(from)) {
@@ -89,7 +120,12 @@
       }
       return true;
     };
-    Board.prototype.isCastleLegal = function (move) {
+
+    /**
+     * @param <Move> move 
+     * @return <Boolean> isCastleLegal
+     **/
+    Board.prototype.isCastleLegal = function isCastleLegal(move) {
       var king = move.piece;
       var rook;
       if(typeof king === "undefined") {
@@ -131,7 +167,13 @@
       }
       return true;
     };
-    Board.prototype.isKingUnderAttack = function (kingColor) {
+
+
+    /**
+     * @param <String> kingColor 
+     * @return <Boolean> isKingUnderAttack
+     **/
+    Board.prototype.isKingUnderAttack = function isKingUnderAttack(kingColor) {
       var kingCoordinates;
       var attackingPieceColor;
       var pieces = this.physicalBoard.getPiecesArray();
@@ -158,14 +200,23 @@
       }
       return false;
     };
-    Board.prototype.isCheck = function () {
+
+    /**
+     * @return <Boolean> isKingUnderAttack
+     **/
+    Board.prototype.isCheck = function isCheck() {
       var currentlyPlayingSideKing = this.playerToMoveColor;
       this.togglePlayerToMoveColor();
       var result = this.isKingUnderAttack(currentlyPlayingSideKing);
       this.togglePlayerToMoveColor();
       return result;
     };
-    Board.prototype.isKingUnderAttackAfterMove = function (move) {
+
+     /**
+      * @param <Move>
+      * @return <Boolean> isKingUnderAttackAfterMove
+      **/
+    Board.prototype.isKingUnderAttackAfterMove = function isKingUnderAttackAfterMove(move) {
       var result = false;
       var from = move.from;
       var to = move.to;
@@ -182,14 +233,25 @@
       this.togglePlayerToMoveColor();
       return result;
     };
-    Board.prototype.togglePlayerToMoveColor = function () {
+
+     /**
+      * Changes playr to move color
+      **/
+    Board.prototype.togglePlayerToMoveColor = function togglePlayerToMoveColor() {
       if(this.playerToMoveColor == Board.WHITE_TO_MOVE) {
         this.playerToMoveColor = Board.BLACK_TO_MOVE;
       } else {
         this.playerToMoveColor = Board.WHITE_TO_MOVE;
       }
     };
-    Board.prototype.move = function (piece, from, to) {
+
+     /**
+      * Make a move
+      * @param <Piece> piece
+      * @param <Object> from
+      * @param <Object> to
+      **/
+    Board.prototype.move = function move(piece, from, to) {
       this.removeCanBeTakenEnPassantProperty(piece.color);
       this.physicalBoard.removePiece(from);
       piece.move(to);
@@ -205,7 +267,12 @@
         this.changeCastleStatus(piece);
       }
     };
-    Board.prototype.changeCastleStatus = function (piece) {
+
+     /**
+      * Change Castle Status if neccessary
+      * @param <Piece> piece the piece which moved
+      **/
+    Board.prototype.changeCastleStatus = function changeCastleStatus(piece) {
       if(piece instanceof King) {
         this.canCastleQueenSide[piece.color] = false;
         this.canCastleKingSide[piece.color] = false;
@@ -230,7 +297,12 @@
         }
       }
     };
-    Board.prototype.completeCastle = function (piece) {
+
+     /**
+      * Change Castle Status if neccessary
+      * @param <Piece> piece the piece which moved
+      **/
+    Board.prototype.completeCastle = function completeCastle(piece) {
       var oldRookCoord;
       var newRookCoord;
       if(piece.castle === King.CASTLE_KING_SIDE) {
@@ -257,6 +329,12 @@
       movingRook.move(newRookCoord);
       this.physicalBoard.setPiece(newRookCoord, movingRook);
     };
+
+     /**
+      * Remove Can Be Taken En Passant Property
+      * @param <String> movingPieceColor 
+      * TODO : make en paasant a property of cell
+      **/
     Board.prototype.removeCanBeTakenEnPassantProperty = function (movingPieceColor) {
       for(var i = 0; i < 8; i++) {
         for(var j = 0; j < 8; j++) {
@@ -273,6 +351,12 @@
         }
       }
     };
+
+       /**
+        * Remove Can Be Taken En Passant Property
+        * @param <Piece> piece the piece which moved
+        * TODO : make en paasant a property of cell
+        **/
     Board.prototype.removeEnPassantPiece = function (movedPiece) {
       var newCoord;
       if(movedPiece.color === Piece.WHITE) {

@@ -14,6 +14,11 @@
       return '\u265B';
     }*/
     };
+
+    /**
+      * @param <Object> newCoord destination coorinates
+      * @return <Boolean> is legal move
+      **/
     Queen.prototype.isLegalMove = function (newCoord) {
       if(this.x === newCoord.x || this.y === newCoord.y || Math.abs(this.x - newCoord.x) === Math.abs(this.y - newCoord.y)) {
         return true;
