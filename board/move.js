@@ -1,5 +1,5 @@
 'use strict';
-chessApp.factory('Move', function() {
+angular.module('chess').factory('Move', function() {
   function Move(from, to, piece) {
     this.from = from;
     this.to = to;

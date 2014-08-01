@@ -1,5 +1,6 @@
 'use strict';
-chessApp.factory('PhysicalBoard', function(Pawn, Piece, Cell, Rook, King, Bishop, Queen, Knight) {
+angular.module('chess')
+.factory('PhysicalBoard', function(Pawn, Piece, Cell, Rook, King, Bishop, Queen, Knight) {
   function PhysicalBoard(strFEN) {
     this.boardMatrix = [];
     this.boardMatrix.get = function(coord) {

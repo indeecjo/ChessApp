@@ -1,5 +1,5 @@
 'use strict';
-chessApp.factory('Cell', function() {
+angular.module('chess').factory('Cell', function() {
   function Cell(coord,piece) {
     this.x = coord.x;
     this.y = coord.y;
@@ -18,7 +18,7 @@ chessApp.factory('Cell', function() {
   return Cell;
 });
 
-chessApp.directive('cell', function(Cell, Move) {
+angular.module('chess').directive('cell', function(Cell, Move) {
   return {
     restrict: 'AE',
     link: function(scope, element, attrs) {

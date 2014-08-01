@@ -1,4 +1,4 @@
-chessApp.factory('Pawn', function(Piece) {
+angular.module('chess').factory('Pawn', function(Piece) {
   
   function Pawn(coord, color) {
     Piece.apply(this, arguments);

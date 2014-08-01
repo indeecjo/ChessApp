@@ -1,6 +1,7 @@
+/* global: angular*/
 (function(){
 'use strict';
-chessApp.factory('Rook', function(Piece) {
+angular.module('chess').factory('Rook', function(Piece) {
   function Rook(coord, color) {
     Piece.apply(this, arguments);
   }

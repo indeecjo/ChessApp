@@ -1,5 +1,5 @@
 'use strict';
-chessApp.factory('Knight', function(Piece) {
+angular.module('chess').factory('Knight', function(Piece) {
   function Knight(coord, color) {
     Piece.apply(this, arguments);
   }

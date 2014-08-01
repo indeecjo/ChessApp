@@ -1,4 +1,4 @@
-chessApp.controller('BoardCtrl', function($scope, Board, PhysicalBoard) {
+angular.module('chess').controller('BoardCtrl', function($scope, Board, PhysicalBoard) {
   window.MY_SCOPE = $scope;
   $scope.board = new Board();
   $scope.isCheck = false;
