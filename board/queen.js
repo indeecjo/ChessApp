@@ -8,9 +8,9 @@
     Queen.prototype = Object.create(Piece.prototype);
     Queen.prototype.constructor = Queen;
     Queen.prototype.getUnicodeChar = function () {
-      /* if(this.color == Piece.WHITE){
+      /* if(this.color == Piece.Color.WHITE){
       return '\u2655';
-    }else if(this.color == Piece.BLACK){
+    }else if(this.color == Piece.Color.BLACK){
       return '\u265B';
     }*/
     };

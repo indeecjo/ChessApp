@@ -9,9 +9,9 @@
     Pawn.prototype = Object.create(Piece.prototype);
     Pawn.prototype.constructor = Pawn;
     Pawn.prototype.getUnicodeChar = function () {
-      if(this.color == Piece.WHITE) {
+      if(this.color == Piece.Color.WHITE) {
         return '\u2659';
-      } else if(this.color == Piece.BLACK) {
+      } else if(this.color == Piece.Color.BLACK) {
         return '\u265F';
       }
     };
@@ -35,12 +35,12 @@
     };
     Pawn.prototype.canTakeDirectly = function (newCoord) {
       if(newCoord.y === this.y + 1 || newCoord.y === this.y - 1) {
-        if(this.color == Piece.BLACK) {
+        if(this.color == Piece.Color.BLACK) {
           if(newCoord.x == this.x + 1) {
             return true;
           }
         }
-        if(this.color == Piece.WHITE) {
+        if(this.color == Piece.Color.WHITE) {
           if(newCoord.x == this.x - 1) {
             return true;
           }
@@ -51,7 +51,7 @@
       var newX = newCoord.x;
       var newY = newCoord.y;
       if(newY == this.y) {
-        if(this.color == Piece.BLACK) {
+        if(this.color == Piece.Color.BLACK) {
           if(newX == this.x + 1) {
             return true;
           }
@@ -59,7 +59,7 @@
             return true;
           }
         }
-        if(this.color == Piece.WHITE) {
+        if(this.color == Piece.Color.WHITE) {
           if(newX == this.x - 1) {
             return true;
           }
@@ -92,7 +92,7 @@
       } else {
         this.canBeTakenEnPassant = false;
       }
-      if((this.color === Piece.WHITE && newCoord.x === 0) || (this.color === Piece.BLACK && newCoord.x === 7)) {
+      if((this.color === Piece.Color.WHITE && newCoord.x === 0) || (this.color === Piece.Color.BLACK && newCoord.x === 7)) {
         this.promoteMe = true;
       }
       this.x = newCoord.x;

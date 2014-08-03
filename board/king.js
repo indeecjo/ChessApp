@@ -17,9 +17,9 @@
     King.prototype.constructor = King;
     
     King.prototype.getUnicodeChar = function () {
-      if(this.color == Piece.WHITE) {
+      if(this.color == Piece.Color.WHITE) {
         return '\u2654';
-      } else if(this.color == Piece.BLACK) {
+      } else if(this.color == Piece.Color.BLACK) {
         return '\u265A';
       }
     };

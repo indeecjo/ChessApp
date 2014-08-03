@@ -31,19 +31,19 @@
       },
       buttons: {
         Rook: function () {
-          angular.element('#board_ctrl').scope().$emit('PROMOTE', PhysicalBoard.ROOK);
+          angular.element('#board_ctrl').scope().$emit('PROMOTE', PhysicalBoard.PieceCharacter.ROOK);
           $(this).dialog("close");
         },
         Bishop: function () {
-          angular.element('#board_ctrl').scope().$emit('PROMOTE', PhysicalBoard.BISHOP);
+          angular.element('#board_ctrl').scope().$emit('PROMOTE', PhysicalBoard.PieceCharacter.BISHOP);
           $(this).dialog("close");
         },
         Knight: function () {
-          angular.element('#board_ctrl').scope().$emit('PROMOTE', PhysicalBoard.KNIGHT);
+          angular.element('#board_ctrl').scope().$emit('PROMOTE', PhysicalBoard.PieceCharacter.KNIGHT);
           $(this).dialog("close");
         },
         Queen: function () {
-          angular.element('#board_ctrl').scope().$emit('PROMOTE', PhysicalBoard.QUEEN);
+          angular.element('#board_ctrl').scope().$emit('PROMOTE', PhysicalBoard.PieceCharacter.QUEEN);
           $(this).dialog("close");
         }
       }

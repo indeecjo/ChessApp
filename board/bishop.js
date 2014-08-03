@@ -8,9 +8,9 @@
     Bishop.prototype = Object.create(Piece.prototype);
     Bishop.prototype.constructor = Bishop;
     Bishop.prototype.getUnicodeChar = function () {
-      if(this.color == Piece.WHITE) {
+      if(this.color == Piece.Color.WHITE) {
         return '\u2657';
-      } else if(this.color == Piece.BLACK) {
+      } else if(this.color == Piece.Color.BLACK) {
         return '\u265D';
       }
     };

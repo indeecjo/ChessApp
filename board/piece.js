@@ -18,15 +18,18 @@
       };
     };
     Piece.prototype.getOppositeColor = function () {
-      if(this.color === Piece.WHITE) {
-        return Piece.BLACK;
+      if(this.color === Piece.Color.WHITE) {
+        return Piece.Color.BLACK;
       }
-      if(this.color === Piece.BLACK) {
-        return Piece.WHITE;
+      if(this.color === Piece.Color.BLACK) {
+        return Piece.Color.WHITE;
       }
     };
-    Piece.WHITE = 'white';
-    Piece.BLACK = 'black';
+    Piece.Color = Object.freeze({
+      WHITE : 'white',
+      BLACK : 'black'  
+    });
+    
     return Piece;
   });
   angular.module('chess').directive('piece', function () {

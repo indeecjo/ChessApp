@@ -8,9 +8,9 @@
     Knight.prototype = Object.create(Piece.prototype);
     Knight.prototype.constructor = Knight;
     Knight.prototype.getUnicodeChar = function () {
-      if(this.color == Piece.WHITE) {
+      if(this.color == Piece.Color.WHITE) {
         return '\u2658';
-      } else if(this.color == Piece.BLACK) {
+      } else if(this.color == Piece.Color.BLACK) {
         return '\u265E';
       }
     };

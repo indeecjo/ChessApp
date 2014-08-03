@@ -9,6 +9,14 @@
       };
       this.initBoardMatrixFromFEN(strFEN);
     }
+    PhysicalBoard.PieceCharacter = Object.freeze({
+      ROOK : 'R',
+      QUEEN : 'Q',
+      BISHOP : 'B',
+      PAWN : 'P',
+      KNIGHT : 'N',
+      KING : 'K'
+    });
     PhysicalBoard.ROOK = 'R';
     PhysicalBoard.QUEEN = 'Q';
     PhysicalBoard.BISHOP = 'B';
@@ -43,22 +51,22 @@
             }
           } else {
             if(curChar === curChar.toUpperCase()) {
-              color = Piece.WHITE;
+              color = Piece.Color.WHITE;
             } else {
-              color = Piece.BLACK;
+              color = Piece.Color.BLACK;
             }
             curChar = curChar.toUpperCase();
             if(curChar === PhysicalBoard.PAWN) {
               newPiece = new Pawn(coord, color);
-            } else if(curChar === PhysicalBoard.ROOK) {
+            } else if(curChar === PhysicalBoard.PieceCharacter.ROOK) {
               newPiece = new Rook(coord, color);
-            } else if(curChar === PhysicalBoard.KING) {
+            } else if(curChar === PhysicalBoard.PieceCharacter.KING) {
               newPiece = new King(coord, color);
-            } else if(curChar === PhysicalBoard.BISHOP) {
+            } else if(curChar === PhysicalBoard.PieceCharacter.BISHOP) {
               newPiece = new Bishop(coord, color);
-            } else if(curChar === PhysicalBoard.QUEEN) {
+            } else if(curChar === PhysicalBoard.PieceCharacter.QUEEN) {
               newPiece = new Queen(coord, color);
-            } else if(curChar === PhysicalBoard.KNIGHT) {
+            } else if(curChar === PhysicalBoard.PieceCharacter.KNIGHT) {
               newPiece = new Knight(coord, color);
             }
             this.boardMatrix[lineIndex][rowIndex] = new Cell(coord, newPiece);

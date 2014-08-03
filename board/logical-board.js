@@ -7,11 +7,11 @@
     function Board() {
       this.playerToMoveColor = Board.WHITE_TO_MOVE;
       this.canCastleKingSide = {};
-      this.canCastleKingSide[Piece.WHITE] = true;
-      this.canCastleKingSide[Piece.BLACK] = true;
+      this.canCastleKingSide[Piece.Color.WHITE] = true;
+      this.canCastleKingSide[Piece.Color.BLACK] = true;
       this.canCastleQueenSide = {};
-      this.canCastleQueenSide[Piece.WHITE] = true;
-      this.canCastleQueenSide[Piece.BLACK] = true;
+      this.canCastleQueenSide[Piece.Color.WHITE] = true;
+      this.canCastleQueenSide[Piece.Color.BLACK] = true;
       this.halfMovesSinceCaptureOrPawnAdvance = 0;
       this.moveNumber = 0;
       // TODO: Load table initial postition from external source
@@ -19,8 +19,8 @@
       //this.physicalBoard = new PhysicalBoard('rnbqkbn1/pppppppP/8/8/8/8/PPPPPPPp/RNBQKBN1');    
       //this.physicalBoard = new PhysicalBoard('8/p7/P7/8/8/8/8/8');
     }
-    Board.WHITE_TO_MOVE = Piece.WHITE;
-    Board.BLACK_TO_MOVE = Piece.BLACK;
+    Board.WHITE_TO_MOVE = Piece.Color.WHITE;
+    Board.BLACK_TO_MOVE = Piece.Color.BLACK;
     
     /**
      *@param <String> strFEN String starting position in FEN format
@@ -50,10 +50,10 @@
      *@param <String> canCastleStr k - king side q -queen side (uppder case White)
      **/
     Board.prototype.initCanCastleFromFEN = function initCanCastleFromFEN(canCastleStr) {
-      this.canCastleKingSide[Piece.WHITE] = canCastleStr.contains('K');
-      this.canCastleKingSide[Piece.BLACK] = canCastleStr.contains('k');
-      this.canCastleQueenSide[Piece.WHITE] = canCastleStr.contains('Q');
-      this.canCastleQueenSide[Piece.BLACK] = canCastleStr.contains('q');
+      this.canCastleKingSide[Piece.Color.WHITE] = canCastleStr.contains('K');
+      this.canCastleKingSide[Piece.Color.BLACK] = canCastleStr.contains('k');
+      this.canCastleQueenSide[Piece.Color.WHITE] = canCastleStr.contains('Q');
+      this.canCastleQueenSide[Piece.Color.BLACK] = canCastleStr.contains('q');
     };
 
     /**
@@ -84,7 +84,7 @@
         return false;
       }
       var movingPiece = move.piece;
-      if((movingPiece.color === Piece.WHITE && this.playerToMoveColor === Board.BLACK_TO_MOVE) || (movingPiece.color === Piece.BLACK && this.playerToMoveColor === Board.WHITE_TO_MOVE)) {
+      if((movingPiece.color === Piece.Color.WHITE && this.playerToMoveColor === Board.BLACK_TO_MOVE) || (movingPiece.color === Piece.Color.BLACK && this.playerToMoveColor === Board.WHITE_TO_MOVE)) {
         return false;
       }
       var takenPiece = this.physicalBoard.getPiece(to);
@@ -94,12 +94,12 @@
         }
       }
       var takenEnPassantPiece;
-      if(movingPiece.color === Piece.WHITE) {
+      if(movingPiece.color === Piece.Color.WHITE) {
         takenEnPassantPiece = this.physicalBoard.getPiece({
           x: to.x + 1,
           y: to.y
         });
-      } else if(movingPiece.color === Piece.BLACK) {
+      } else if(movingPiece.color === Piece.Color.BLACK) {
         takenEnPassantPiece = this.physicalBoard.getPiece({
           x: to.x - 1,
           y: to.y
@@ -278,9 +278,9 @@
         this.canCastleKingSide[piece.color] = false;
       } else if(piece instanceof Rook) {
         var x;
-        if(piece.color === Piece.BLACK) {
+        if(piece.color === Piece.Color.BLACK) {
           x = 0;
-        } else if(piece.color === Piece.WHITE) {
+        } else if(piece.color === Piece.Color.WHITE) {
           x = 7;
         }
         if(!(this.physicalBoard.getPiece({
@@ -359,7 +359,7 @@
         **/
     Board.prototype.removeEnPassantPiece = function (movedPiece) {
       var newCoord;
-      if(movedPiece.color === Piece.WHITE) {
+      if(movedPiece.color === Piece.Color.WHITE) {
         newCoord = {
           x: movedPiece.x + 1,
           y: movedPiece.y
