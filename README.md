@@ -1,4 +1,4 @@
-chess
+Chess
 =====
 
-Chess Single Page Application 
+Chess Single Page Application built with angular 
